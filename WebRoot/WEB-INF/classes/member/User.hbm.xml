@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding='UTF-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+          "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+          "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+
+<hibernate-mapping package="bean">
+
+    <class name="member.User" table="tab_user">
+    	<!-- 设置主键 -->
+        <id name="userID" column="user_id" type="java.lang.Integer">
+            <generator class="native"/>
+        </id>
+        
+ 		<!-- 设置其他属性 -->
+        <property name="userName" column="user_name" type="java.lang.String" length="45" />
+        <property name="userPassword" column="user_password" type="java.lang.String" length="45" />
+        <property name="userSex" column="user_sex" type="java.lang.Boolean" />
+        <property name="userOnline" column="user_online" type="java.lang.Boolean" />
+        <property name="userBirth" column="user_birth" type="java.lang.String" length="45" />
+        <property name="userEmail" column="user_email" type="java.lang.String" length="45" />
+        <property name="userAvatars" column="user_avatars" type="java.lang.String" length="100" />
+        
+    </class>
+    
+</hibernate-mapping>

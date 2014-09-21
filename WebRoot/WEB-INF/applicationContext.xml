@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="GBK"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+	http://www.springframework.org/schema/aop
+	http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
+
+<!-- 数据库管理模块 -->
+	<!-- 定义数据源 -->
+	<bean id="dataSource"	class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<!-- 数据库驱动 -->
+		<property name="driverClassName">
+			<value>com.mysql.jdbc.Driver</value>
+		</property>
+		<!-- 数据库 -->
+		<property name="url">
+			<value>jdbc:mysql://localhost:3306/db_javaweb?useUnicode=true&amp;characterEncoding=gbk</value>
+		</property>
+		<!-- 用户名 -->
+		<property name="username">
+			<value>root</value>
+		</property>
+		<!-- 密码 -->
+		<property name="password">
+			<value>admin</value>
+		</property>
+	</bean>
+
+	<!-- 定义会话工厂 -->
+	<bean id="sessionFactory"	class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">
+		<property name="dataSource">
+			<ref bean="dataSource" />
+		</property>
+		<!-- Hibernate方言，控制台输出SQL -->
+		<property name="hibernateProperties">
+			<props>
+			<prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+			<prop key="hibernate.show_sql">true</prop>
+			</props>
+		</property>
+		<!-- Hibernate映射文件 -->
+		<property name="mappingResources">
+			<list>
+			<value>member/User.hbm.xml</value>
+			<value>message/SMS.hbm.xml</value>
+			</list>
+		</property>
+	</bean>
+	
+	<!-- 配置事务和模版 -->
+	<bean id="transactionManager"
+		class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+		<property name="sessionFactory">
+			<ref local="sessionFactory" />
+		</property>
+	</bean>
+	<bean id="hibernateTemplate" class="org.springframework.orm.hibernate3.HibernateTemplate">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory"/>
+		</property>
+	</bean>
+
+<!-- 工具模块 -->
+	<!-- 配置DateUtil组件 -->
+	<bean id="date" class="java.util.Date" />
+	<!-- 配置SessionUtil组件 -->
+	<bean id="sessionUtil" class="util.SessionUtil" />
+
+<!-- 用户管理模块 -->
+	<!-- 配置用户Bean组件 -->
+	<bean id="user" class="member.User" />
+	<!-- 配置用户DAO组件 -->
+	<bean id="userDAO" class="member.UserDAO">
+		<property name="hibernateTemplate" ref="hibernateTemplate" />
+	</bean>
+	<!-- 配置用户Service组件 -->
+	<bean id="userService" class="member.UserService" scope="prototype">
+		<property name="user" ref="user" />
+		<property name="userDAO" ref="userDAO" />
+		<property name="date" ref="date" />
+		<property name="sessionUtil" ref="sessionUtil" />
+	</bean>
+	<!-- 配置用户Action组件 -->
+	<bean id="userAction" class="member.UserAction" scope="prototype">
+		<property name="userService" ref="userService" />
+	</bean>
+	
+	
+<!-- 短消息管理模块 -->
+	<!-- 配置短消息Bean组件 -->
+	<bean id="sms" class="message.SMS" />
+	<!-- 配置短消息DAO组件 -->
+	<bean id="smsDAO" class="message.SMSDAO">
+		<property name="hibernateTemplate" ref="hibernateTemplate" />
+	</bean>
+	<!-- 配置短消息Service组件 -->
+	<bean id="smsService" class="message.SMSService" scope="prototype">
+		<property name="sms" ref="sms" />
+		<property name="smsDAO" ref="smsDAO" />
+		<property name="userDAO" ref="userDAO" />
+		<property name="date" ref="date" />
+		<property name="sessionUtil" ref="sessionUtil" />
+	</bean>
+	<!-- 配置短消息Action组件 -->
+	<bean id="smsAction" class="message.SMSAction" scope="prototype">
+		<property name="smsService" ref="smsService" />
+	</bean>
+	
+</beans>

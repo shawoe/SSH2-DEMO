@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding='UTF-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+          "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+          "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+
+<hibernate-mapping package="bean">
+    <class name="message.SMS" table="tab_sms">
+    	<!-- 设置主键 -->
+        <id name="smsID" column="sms_id" type="java.lang.Integer">
+            <generator class="native"/>
+        </id>
+ 
+ 		<!-- 设置其他属性 -->
+        <property name="smsUserName" column="sms_userName" type="java.lang.String" length="45" />
+        <property name="smsContent" column="sms_content" type="java.lang.String" length="2000" />
+        <property name="smsSendTime" column="sms_sendTime" type="java.lang.String" length="45" />
+        <property name="smsIsRead" column="sms_isRead" type="java.lang.Boolean" />
+        <property name="smsSender" column="sms_sender" type="java.lang.String" length="45" />
+    </class>
+    
+</hibernate-mapping>
