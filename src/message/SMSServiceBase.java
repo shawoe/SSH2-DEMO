@@ -7,7 +7,7 @@ import member.UserDAO;
 
 import util.SessionUtil;
 
-public abstract class SMSServiceBase {
+public abstract class SMSServiceBase implements util.ConstantUtil {
 
 	// 设置属性
 	protected String currentUser;
@@ -19,13 +19,6 @@ public abstract class SMSServiceBase {
 	protected Date date;
 	protected SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 	protected SessionUtil sessionUtil;
-	
-	// 返回值常量
-	public static final String SUCCESS = "success";
-	public static final String NONE = "none";
-	public static final String ERROR = "error";
-	public static final String INPUT = "input";
-	public static final String LOGIN = "login";
 
 	
 	// 默认属性Getter/Setter

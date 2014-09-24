@@ -1,12 +1,10 @@
 package member;
 
-
-
 @SuppressWarnings("serial")
-public class UserAction extends UserActionBase implements IUserAction {
+public class UserAction extends UserActionBase {
 
 	// 用户登录
-	public String loginUser() throws Exception {
+	public String login() throws Exception {
 		// 参数检验
 		if (userName == null || userName.trim().length() == 0) {
 			this.addFieldError("userName", "用户名不能为空");
@@ -17,7 +15,7 @@ public class UserAction extends UserActionBase implements IUserAction {
 			return INPUT;
 		}
 		// 用户登录
-		String result = userService.loginUser(userName, userPassword);
+		String result = userService.login(userName, userPassword);
 		if (result.equals(NONE)) {
 			this.addFieldError("userName", "用户不存在");
 			return NONE;
@@ -35,8 +33,8 @@ public class UserAction extends UserActionBase implements IUserAction {
 	}
 
 	// 退出登录
-	public String logoutUser() throws Exception {
-		String result = userService.logoutUser();
+	public String logout() throws Exception {
+		String result = userService.logout();
 		if (result.equals(LOGIN)) {
 			this.addActionError("您尚未登陆");
 			return LOGIN;
@@ -54,7 +52,7 @@ public class UserAction extends UserActionBase implements IUserAction {
 	}
 
 	// 用户注册
-	public String registerUser() throws Exception {
+	public String register() throws Exception {
 		// 参数检验
 		if (userName == null || userName.trim().length() == 0) {
 			this.addFieldError("userName", "用户名不能为空");
@@ -86,7 +84,7 @@ public class UserAction extends UserActionBase implements IUserAction {
 			return INPUT;
 		}
 		// 用户注册
-		String result = userService.registerUser(userName, userPassword, userSex, userBirth, userEmail);
+		String result = userService.register(userName, userPassword, userSex, userBirth, userEmail);
 		if (result.equals(INPUT)) {
 			this.addFieldError("userName", "用户已存在");
 			return INPUT;
@@ -100,7 +98,7 @@ public class UserAction extends UserActionBase implements IUserAction {
 	}
 
 	// 编辑用户资料
-	public String editUserData() throws Exception {
+	public String edit() throws Exception {
 		// 参数检验
 		if (userPassword == null || userPassword.trim().length() == 0) {
 			this.addFieldError("userPassword", "原密码不能为空");
@@ -119,7 +117,7 @@ public class UserAction extends UserActionBase implements IUserAction {
 			return INPUT;
 		}
 		// 编辑用户资料
-		String result = userService.editUserData(userPassword, userSex, userBirth, userEmail);
+		String result = userService.editData(userPassword, userSex, userBirth, userEmail);
 		if (result.equals(LOGIN)) {
 			this.addActionError("您尚未登录，请重新登录");
 			return LOGIN;
@@ -141,7 +139,7 @@ public class UserAction extends UserActionBase implements IUserAction {
 	}
 
 	// 修改用户密码
-	public String changeUserPassword() throws Exception {
+	public String changePassword() throws Exception {
 		if (oldUserPassword == null || oldUserPassword.trim().length() == 0) {
 			this.addFieldError("oldUserPassword", "原密码不能为空");
 			return INPUT;
@@ -160,7 +158,7 @@ public class UserAction extends UserActionBase implements IUserAction {
 			return INPUT;
 		}
 		// 修改用户密码
-		String result = userService.changeUserPassword(oldUserPassword, newUserPassword);
+		String result = userService.changePassword(oldUserPassword, newUserPassword);
 		if (result.equals(LOGIN)) {
 			this.addActionError("您尚未登录，请重新登录");
 			return LOGIN;

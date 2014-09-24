@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding='UTF-8'?>
+<!DOCTYPE hibernate-mapping PUBLIC
+          "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+          "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+
+<hibernate-mapping package="bean">
+    <class name="Logger" table="tab_logger">
+    	<!-- 设置主键 -->
+        <id name="loggerID" column="logger_id" type="java.lang.Integer">
+            <generator class="native"/>
+        </id>
+ 
+ 		<!-- 设置其他属性 -->
+        <property name="loggerUser" column="logger_user" type="java.lang.String" length="45" />
+        <property name="loggerAction" column="logger_action" type="java.lang.String" length="45" />
+        <property name="loggerTime" column="logger_time" type="java.lang.String" length="45" />
+        <property name="loggerSuccess" column="logger_success" type="java.lang.Boolean" />
+        <property name="loggerError" column="logger_error" type="java.lang.String" length="45" />
+    </class>
+    
+</hibernate-mapping>

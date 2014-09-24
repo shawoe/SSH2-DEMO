@@ -2,12 +2,7 @@ package message;
 
 
 import java.util.List;
-
-
 import util.PageUtil;
-
-
-
 import com.opensymphony.xwork2.ActionSupport;
 
 
@@ -20,8 +15,8 @@ public abstract class SMSActionBase extends ActionSupport{
 	protected Integer smsID;
 	protected String smsReader;
 	protected String smsContent;
-	protected ISMSService smsService;
-	protected List<SMS> allSms;
+	protected SMSService smsService;
+	protected List<SMS> allSMS;
 	
 
 	protected Integer smsPageNow; 	//初始化为1,默认从第一页开始显示
@@ -58,18 +53,6 @@ public abstract class SMSActionBase extends ActionSupport{
 	}
 	public void setSmsContent(String smsContent) {
 		this.smsContent = smsContent;
-	}
-	public ISMSService getSmsService() {
-		return smsService;
-	}
-	public void setSmsService(ISMSService smsService) {
-		this.smsService = smsService;
-	}
-	public List<SMS> getAllSms() {
-		return allSms;
-	}
-	public void setAllSms(List<SMS> allSms) {
-		this.allSms = allSms;
 	}
 	public PageUtil<SMS> getPage() {
 		return page;
@@ -112,6 +95,18 @@ public abstract class SMSActionBase extends ActionSupport{
 	}
 	public void setSmsPageCount(Integer smsPageCount) {
 		this.smsPageCount = smsPageCount;
+	}
+	public List<SMS> getAllSMS() {
+		return allSMS;
+	}
+	public void setAllSMS(List<SMS> allSMS) {
+		this.allSMS = allSMS;
+	}
+	public SMSService getSmsService() {
+		return smsService;
+	}
+	public void setSmsService(SMSService smsService) {
+		this.smsService = smsService;
 	}
 
 	

@@ -11,10 +11,10 @@
         </id>
  
  		<!-- 设置其他属性 -->
-        <property name="smsUserName" column="sms_userName" type="java.lang.String" length="45" />
+        <property name="smsUser" column="sms_user" type="java.lang.String" length="45" />
         <property name="smsContent" column="sms_content" type="java.lang.String" length="2000" />
-        <property name="smsSendTime" column="sms_sendTime" type="java.lang.String" length="45" />
-        <property name="smsIsRead" column="sms_isRead" type="java.lang.Boolean" />
+        <property name="smsTime" column="sms_time" type="java.lang.String" length="45" />
+        <property name="smsRead" column="sms_read" type="java.lang.Boolean" />
         <property name="smsSender" column="sms_sender" type="java.lang.String" length="45" />
     </class>
     

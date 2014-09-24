@@ -1,16 +1,13 @@
 package member;
 
-
 import java.util.List;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
+import api.InterfaceDAO;
 
-
-
-
-public class UserDAO extends HibernateDaoSupport implements IUserDAO {
+public class UserDAO extends HibernateDaoSupport implements InterfaceDAO<User> {
 	
 	// 填加用户
-	public boolean insertUser(User user) {
+	public boolean insert(User user) {
 		if (user != null) {
 			this.getHibernateTemplate().save(user);
 			return true;
@@ -19,7 +16,7 @@ public class UserDAO extends HibernateDaoSupport implements IUserDAO {
 	}
 	
 	// 删除指定用户
-	public boolean deleteUserByID(Integer userID) {
+	public boolean delete(Integer userID) {
 		User user = this.getHibernateTemplate().load(User.class, new Integer(userID));
 		if (user != null) {
 			this.getHibernateTemplate().delete(user);
@@ -30,7 +27,7 @@ public class UserDAO extends HibernateDaoSupport implements IUserDAO {
 	
 	// 删除用户
 	@SuppressWarnings("unchecked")
-	public boolean deleteUserByName(String userName) {
+	public boolean deleteDataByUserName(String userName) {
 		List<User> userList = this.getHibernateTemplate().find("from User user where user.userName=?",userName);
 		if (userList.size() == 1) {
 			User user = userList.get(0); 
@@ -41,14 +38,21 @@ public class UserDAO extends HibernateDaoSupport implements IUserDAO {
 	}
 
 	// 查询指定用户
-	public User findUserByID(Integer userID) {
+	public User find(Integer userID) {
 		User user = (User) this.getHibernateTemplate().get(User.class,new Integer(userID));
 		return user;
 	}
 
 	// 查询用户
 	@SuppressWarnings("unchecked")
-	public User findUserByName(String userName) {
+	public List<User> findDataByUserName(String userName) {
+		List<User> userList = this.getHibernateTemplate().find("from User user where user.userName=?",userName);
+		return userList;
+	}
+	
+	// 查询用户
+	@SuppressWarnings("unchecked")
+	public User findUser(String userName){
 		List<User> userList = this.getHibernateTemplate().find("from User user where user.userName=?",userName);
 		if (userList.size() == 1) {
 			User user = userList.get(0); 
@@ -59,13 +63,13 @@ public class UserDAO extends HibernateDaoSupport implements IUserDAO {
 
 	// 查询所有用户
 	@SuppressWarnings("unchecked")
-	public List<User> findAllUsers() {
+	public List<User> findAll() {
 		List<User> userList = this.getHibernateTemplate().find("from User");
 		return userList;
 	}
 
 	// 更新用户
-	public boolean updateUser(User user) {
+	public boolean update(User user) {
 		if (user != null) {
 		this.getHibernateTemplate().update(user);
 			return true;

@@ -1,21 +1,17 @@
 package member;
 
-
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import org.apache.commons.io.FileUtils;
 import org.apache.struts2.ServletActionContext;
 
-
-
-
-public class UserService extends UserServiceBase implements IUserService {
+public class UserService extends UserServiceBase {
 
 	// 用户登录
-	public String loginUser(String userName, String userPassword) {
+	public String login(String userName, String userPassword) {
 		// 获取用户
-		user = userDAO.findUserByName(userName);
+		user = userDAO.findUser(userName);
 		if (user == null)
 			return NONE;
 		if (!userPassword.equals(user.getUserPassword()))
@@ -27,18 +23,18 @@ public class UserService extends UserServiceBase implements IUserService {
 			return ERROR;
 		// 存至数据库
 		user.setUserOnline(true);
-		if (userDAO.updateUser(user))
+		if (userDAO.update(user))
 			return SUCCESS;
 		return ERROR;
 	}
 
 	// 执行退出登录
-	public String logoutUser() {
+	public String logout() {
 		// 获取当前用户
 		currentUser = sessionUtil.getSessionUser();
 		if (currentUser == null || currentUser.trim().length() == 0)
 			return LOGIN;
-		user = userDAO.findUserByName(currentUser);
+		user = userDAO.findUser(currentUser);
 		if (user == null)
 			return NONE;
 		// 执行退出登录
@@ -48,15 +44,15 @@ public class UserService extends UserServiceBase implements IUserService {
 			return ERROR;
 		// 存至数据库
 		user.setUserOnline(false);
-		if (userDAO.updateUser(user))
+		if (userDAO.update(user))
 			return SUCCESS;
 		return ERROR;
 	}
 
 	// 注册新用户
-	public String registerUser(String userName, String userPassword, String userSex, String userBirth, String userEmail) {
+	public String register(String userName, String userPassword, String userSex, String userBirth, String userEmail) {
 		// 获取用户
-		user = userDAO.findUserByName(userName);
+		user = userDAO.findUser(userName);
 		if (user != null)
 			return INPUT;
 		// 注册新用户
@@ -69,59 +65,59 @@ public class UserService extends UserServiceBase implements IUserService {
 		user.setUserOnline(false);
 		user.setUserAvatars("../avatars/default-avatars.jsp");
 		// 存至数据库
-		if (userDAO.insertUser(user))
+		if (userDAO.insert(user))
 			return SUCCESS;
 		return ERROR;
 	}
 
 	// 删除指定用户
-	public String deleteUserByID(Integer userID) {
-		if (userDAO.findUserByID(userID) == null)
+	public String delete(Integer userID) {
+		if (userDAO.find(userID) == null)
 			return INPUT;
-		if (userDAO.deleteUserByID(userID))
+		if (userDAO.delete(userID))
 			return SUCCESS;
 		return ERROR;
 	}
 
 	// 删除用户
 	public String deleteUserByName(String userName) {
-		if (userDAO.findUserByName(userName) == null)
+		if (userDAO.findUser(userName) == null)
 			return INPUT;
-		if (userDAO.deleteUserByName(userName))
+		if (userDAO.deleteDataByUserName(userName))
 			return SUCCESS;
 		return ERROR;
 	}
 
 	// 查询指定用户
-	public User getUserByID(Integer userID) {
-		return userDAO.findUserByID(userID);
+	public User get(Integer userID) {
+		return userDAO.find(userID);
 	}
 
 	// 查询用户
 	public User getUserByName(String userName) {
-		return userDAO.findUserByName(userName);
+		return userDAO.findUser(userName);
 	}
 
 	// 获取当前用户资料
 	public User getCurrentUserData() {
 		currentUser = sessionUtil.getSessionUser();
 		if (currentUser != null || currentUser.trim().length() > 0) 
-			return userDAO.findUserByName(currentUser);
+			return userDAO.findUser(currentUser);
 		return null;
 	}
 
 	// 查询所有用户
 	public List<User> getAllUsers() {
-		return userDAO.findAllUsers();
+		return userDAO.findAll();
 	}
 
 	// 编辑用户
-	public String editUserData(String userPassword, String userSex, String userBirth, String userEmail) {
+	public String editData(String userPassword, String userSex, String userBirth, String userEmail) {
 		// 获取当前用户
 		currentUser = sessionUtil.getSessionUser();
 		if (currentUser == null || currentUser.trim().length() == 0)
 			return LOGIN;
-		user = userDAO.findUserByName(currentUser);
+		user = userDAO.findUser(currentUser);
 		if (user == null)
 			return NONE;
 		if (!user.getUserPassword().equals(userPassword)) 
@@ -131,25 +127,25 @@ public class UserService extends UserServiceBase implements IUserService {
 		user.setUserBirth(userBirth);
 		user.setUserEmail(userEmail);
 		// 存至数据库
-		if (userDAO.updateUser(user))
+		if (userDAO.update(user))
 			return SUCCESS;
 		return ERROR;
 	}
 
 	// 修改用户密码
-	public String changeUserPassword(String oldUserPassword, String newUserPassword) {
+	public String changePassword(String oldUserPassword, String newUserPassword) {
 		// 获取当前用户
 		currentUser = sessionUtil.getSessionUser();
 		if (currentUser == null || currentUser.trim().length() == 0)
 			return LOGIN;
-		user = userDAO.findUserByName(currentUser);
+		user = userDAO.findUser(currentUser);
 		if (user == null)
 			return NONE;
 		if (!user.getUserPassword().equals(oldUserPassword))
 			return INPUT;
 		// 修改用户密码
 		user.setUserPassword(newUserPassword);
-		if (userDAO.updateUser(user))
+		if (userDAO.update(user))
 			return SUCCESS;
 		return ERROR;
 	}
@@ -175,4 +171,5 @@ public class UserService extends UserServiceBase implements IUserService {
 			return ERROR;
 		}
 	}
+	
 }

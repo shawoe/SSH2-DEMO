@@ -26,7 +26,7 @@
 	
 	
 	<!-- Member.UserAction -->
-		<action name="loginUser" class="member.UserAction" method="loginUser">
+		<action name="loginUser" class="member.UserAction" method="login">
 			<!-- Stop double-submission of forms -->
 			<interceptor-ref name="defaultStack"/>
         	<interceptor-ref name="token" />
@@ -36,13 +36,13 @@
 			<result name="input" type="dispatcher">/user/login.jsp</result>
 			<result name="success" type="redirect">/user/welcome.jsp</result>
 		</action>
-		<action name="logoutUser" class="member.UserAction" method="logoutUser">
+		<action name="logoutUser" class="member.UserAction" method="logout">
 			<result name="error" type="redirect">/error/error.jsp</result>
 			<result name="login" type="redirect">/index.jsp</result>
 			<result name="none" type="redirect">/index.jsp</result>
 			<result name="success" type="redirect">/index.jsp</result>
 		</action>
-		<action name="registerUser" class="member.UserAction" method="registerUser">
+		<action name="registerUser" class="member.UserAction" method="register">
 			<!-- Stop double-submission of forms -->
 			<interceptor-ref name="defaultStack"/>
         	<interceptor-ref name="token" />
@@ -59,7 +59,7 @@
 			<result name="login" type="redirect">/user/login.jsp</result>
 			<result name="success" type="dispatcher">/user/edit.jsp</result>
 		</action>
-		<action name="editUser" class="member.UserAction" method="editUserData">
+		<action name="editUser" class="member.UserAction" method="editData">
 			<!-- Stop double-submission of forms -->
 			<interceptor-ref name="defaultStack"/>
         	<interceptor-ref name="token" />
@@ -70,7 +70,7 @@
 			<result name="input" type="dispatcher">/user/edit.jsp</result>
 			<result name="success" type="redirectAction">user/showUser</result>
 		</action>
-		<action name="changeUserPassword" class="member.UserAction" method="changeUserPassword">
+		<action name="changeUserPassword" class="member.UserAction" method="changePassword">
 			<!-- Stop double-submission of forms -->
 			<interceptor-ref name="defaultStack"/>
         	<interceptor-ref name="token" />
@@ -92,23 +92,23 @@
         </action>	
 		
 	<!-- Message.SMSAction -->
-		<action name="readSms" class="message.SMSAction" method="readSms">
+		<action name="readSms" class="message.SMSAction" method="read">
 			<result name="error" type="redirect">/sms/error.jsp</result>
 			<result name="success" type="dispatcher">/sms/read.jsp</result>
 		</action>
-		<action name="readFirstSms" class="message.SMSAction" method="readFirstSms">
+		<action name="readFirstSms" class="message.SMSAction" method="readFirst">
 			<result name="error" type="redirect">/sms/error.jsp</result>
 			<result name="success" type="dispatcher">/sms/read.jsp</result>
 		</action>
-		<action name="readNextSms" class="message.SMSAction" method="readNextSms">
+		<action name="readNextSms" class="message.SMSAction" method="readNext">
 			<result name="error" type="redirect">/sms/error.jsp</result>
 			<result name="success" type="dispatcher">/sms/read.jsp</result>
 		</action>
-		<action name="readLastSms" class="message.SMSAction" method="readLastSms">
+		<action name="readLastSms" class="message.SMSAction" method="readLast">
 			<result name="error" type="redirect">/sms/error.jsp</result>
 			<result name="success" type="dispatcher">/sms/read.jsp</result>
 		</action>
-		<action name="readEndSms" class="message.SmsAction" method="readEndSms">
+		<action name="readEndSms" class="message.SmsAction" method="readEnd">
 			<result name="error" type="redirect">/sms/error.jsp</result>
 			<result name="success" type="dispatcher">/sms/read.jsp</result>
 		</action>

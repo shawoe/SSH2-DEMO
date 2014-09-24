@@ -4,11 +4,10 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import util.SessionUtil;
 
-public abstract class UserServiceBase {
+public abstract class UserServiceBase implements util.ConstantUtil {
 
 	// 设置属性
 	protected String currentUser;
-	
 	
 	// 依赖注入属性
 	protected User user;
@@ -16,13 +15,6 @@ public abstract class UserServiceBase {
 	protected Date date;
 	protected SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 	protected SessionUtil sessionUtil;
-
-	// 返回值常量
-	public static final String SUCCESS = "success";
-	public static final String NONE = "none";
-	public static final String ERROR = "error";
-	public static final String INPUT = "input";
-	public static final String LOGIN = "login"; 
 	
 
 	// 默认属性Getter/Setter

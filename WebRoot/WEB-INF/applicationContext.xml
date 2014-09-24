@@ -44,7 +44,9 @@
 		<property name="mappingResources">
 			<list>
 			<value>member/User.hbm.xml</value>
+			<value>member/Friend.hbm.xml</value>
 			<value>message/SMS.hbm.xml</value>
+			<value>monitor/Logger.hbm.xml</value>
 			</list>
 		</property>
 	</bean>
@@ -87,7 +89,6 @@
 		<property name="userService" ref="userService" />
 	</bean>
 	
-	
 <!-- 短消息管理模块 -->
 	<!-- 配置短消息Bean组件 -->
 	<bean id="sms" class="message.SMS" />
@@ -106,6 +107,47 @@
 	<!-- 配置短消息Action组件 -->
 	<bean id="smsAction" class="message.SMSAction" scope="prototype">
 		<property name="smsService" ref="smsService" />
+	</bean>
+	
+<!-- 日志管理模块 -->
+	<!-- 配置日志Bean组件 -->
+	<bean id="logger" class="monitor.Logger" />
+	<!-- 配置日志DAO组件 -->
+	<bean id="loggerDAO" class="monitor.LoggerDAO">
+		<property name="hibernateTemplate" ref="hibernateTemplate" />
+	</bean>
+	<!-- 配置日志Service组件 -->
+	<bean id="loggerService" class="monitor.LoggerService" scope="prototype">
+		<property name="logger" ref="logger" />
+		<property name="loggerDAO" ref="loggerDAO" />
+		<property name="userDAO" ref="userDAO" />
+		<property name="date" ref="date" />
+		<property name="sessionUtil" ref="sessionUtil" />
+	</bean>
+	<!-- 配置日志Advice组件 -->
+	<bean id="loggerAdvice"	class="monitor.LoggerAdvice" scope="prototype">
+		<property name="loggerService" ref="loggerService" />
+	</bean>
+	<!-- 配置日志Aspect组件 -->
+	<aop:config  proxy-target-class="true">
+		<!-- 定义切入点 -->
+		<aop:pointcut id="loginPointcut" 	expression="execution(* member.UserAction.login(..))"/>
+		<aop:pointcut id="logoutPointcut" 	expression="execution(* member.UserAction.logout(..))"/>
+		<aop:pointcut id="writePointcut" 	expression="execution(* message.SMSAction.addSMS(..))"/>
+		<!-- 定义通知 -->
+		<aop:aspect id="loginAspect"	ref="loggerAdvice" order="1">
+			<aop:after pointcut-ref="loginPointcut" 	method="login" />
+		</aop:aspect>
+		<aop:aspect id="logoutAspect"	ref="loggerAdvice" order="1">
+			<aop:before pointcut-ref="logoutPointcut" 	method="logout" />
+		</aop:aspect>
+		<aop:aspect id="writeAspect"	ref="loggerAdvice" order="1">
+			<aop:before pointcut-ref="writePointcut" 	method="write" />
+		</aop:aspect>
+	</aop:config>
+	<!-- 配置日志Action组件 -->
+	<bean id="loggerAction" class="action.LoggerAction" scope="prototype">
+		<property name="loggerService" ref="loggerService" />
 	</bean>
 	
 </beans>

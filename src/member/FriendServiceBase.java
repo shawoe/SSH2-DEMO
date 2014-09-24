@@ -4,7 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import util.SessionUtil;
 
-public abstract class FriendServiceBase {
+public abstract class FriendServiceBase implements util.ConstantUtil {
 
 	// 设置属性
 	protected String currentUser;
@@ -17,13 +17,6 @@ public abstract class FriendServiceBase {
 	protected Date date;
 	protected SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 	protected SessionUtil sessionUtil;
-
-	// 返回值常量
-	public static final String SUCCESS = "success";
-	public static final String NONE = "none";
-	public static final String ERROR = "error";
-	public static final String INPUT = "input";
-	public static final String LOGIN = "login"; 
 	
 
 	// 默认属性Getter/Setter

@@ -1,18 +1,17 @@
 package message;
 
-
-
+import api.InterfaceActionMessage;
 
 @SuppressWarnings("serial")
-public class SMSAction extends SMSActionBase implements ISMSAction {
+public class SMSAction extends SMSActionBase implements InterfaceActionMessage {
 
 	// 读第一页短消息
-	public String readFirstSms() throws Exception {
+	public String readFirst() throws Exception {
 		if (pageSize==null || pageSize <= 0)
 			pageSize = 5;
 		pageNow = 1;
-		allSms = smsService.getSmsByCurrentUser(pageNow, pageSize);
-		pageCount = smsService.getSmsPageCount(pageSize);
+		allSMS = smsService.getMessageByUserName(pageNow, pageSize);
+		pageCount = smsService.getPageCount(pageSize);
 		smsPageNow = pageNow;
 		smsPageSize = pageSize;
 		smsPageCount = pageCount;
@@ -20,30 +19,30 @@ public class SMSAction extends SMSActionBase implements ISMSAction {
 	}
 	
 	// 读短消息
-	public String readSms() throws Exception {
+	public String read() throws Exception {
 		if (smsPageSize==null || smsPageSize <= 0)
 			smsPageSize = 5;
 		if (smsPageNow==null || smsPageNow <= 0)
 			smsPageNow = 1;
 		pageNow = smsPageNow;
 		pageSize = smsPageSize;
-		allSms = smsService.getSmsByCurrentUser(pageNow, pageSize);
-		pageCount = smsService.getSmsPageCount(pageSize);
+		allSMS = smsService.getMessageByUserName(pageNow, pageSize);
+		pageCount = smsService.getPageCount(pageSize);
 		smsPageCount = pageCount;
 		return SUCCESS;	
 	}
 	
 	// 读下一页短消息
-	public String readNextSms() throws Exception {
+	public String readNext() throws Exception {
 		if (pageSize==null || pageSize <= 0)
 			pageSize = 5;
 		if (pageNow==null || pageNow <= 0)
 			pageNow = 1;
 		if (pageCount==null || pageCount <= 0)
-			pageCount = smsService.getSmsPageCount(pageSize);
+			pageCount = smsService.getPageCount(pageSize);
 		if (pageNow < pageCount) 
 			pageNow++;
-		allSms = smsService.getSmsByCurrentUser(pageNow, pageSize);
+		allSMS = smsService.getMessageByUserName(pageNow, pageSize);
 		smsPageNow = pageNow;
 		smsPageSize = pageSize;
 		smsPageCount = pageCount;
@@ -51,16 +50,16 @@ public class SMSAction extends SMSActionBase implements ISMSAction {
 	}
 	
 	// 读上一页短消息
-	public String readLastSms() throws Exception {
+	public String readLast() throws Exception {
 		if (pageSize==null || pageSize <= 0)
 			pageSize = 5;
 		if (pageNow==null || pageNow <= 0)
 			pageNow = 1;
 		if (pageCount==null || pageCount <= 0)
-			pageCount = smsService.getSmsPageCount(pageSize);
+			pageCount = smsService.getPageCount(pageSize);
 		if (pageNow > 1) 
 			pageNow--;
-		allSms = smsService.getSmsByCurrentUser(pageNow, pageSize);
+		allSMS = smsService.getMessageByUserName(pageNow, pageSize);
 		smsPageNow = pageNow;
 		smsPageSize = pageSize;
 		smsPageCount = pageCount;
@@ -68,16 +67,16 @@ public class SMSAction extends SMSActionBase implements ISMSAction {
 	}
 	
 	// 读最后一页短消息
-	public String readEndSms() throws Exception {
+	public String readEnd() throws Exception {
 		if (pageSize==null || pageSize <= 0)
 			pageSize = 5;
 		if (pageNow==null || pageNow <= 0)
 			pageNow = 1;
 		if (pageCount==null || pageCount <= 0)
-			pageCount = smsService.getSmsPageCount(pageSize);
+			pageCount = smsService.getPageCount(pageSize);
 		if (pageCount > 1) 
 			pageNow = pageCount;
-		allSms = smsService.getSmsByCurrentUser(pageNow, pageSize);
+		allSMS = smsService.getMessageByUserName(pageNow, pageSize);
 		smsPageNow = pageNow;
 		smsPageSize = pageSize;
 		smsPageCount = pageCount;
@@ -85,7 +84,7 @@ public class SMSAction extends SMSActionBase implements ISMSAction {
 	}
 	
 	// 发送短消息
-	public String sendSms() throws Exception {
+	public String send() throws Exception {
 		// 参数检验
 		if (smsReader==null || smsReader.trim().length()==0) {
 			this.addFieldError("smsReader", "收信人不能为空");
@@ -96,7 +95,7 @@ public class SMSAction extends SMSActionBase implements ISMSAction {
 			return INPUT;
 		}
 		// 发送短消息
-		String result = smsService.sendSms(smsReader,smsContent);
+		String result = smsService.send(smsReader,smsContent);
 		if (result.equals(LOGIN)) {
 			this.addActionError("您尚未登录，请重新登录");
 			return LOGIN;
@@ -114,14 +113,14 @@ public class SMSAction extends SMSActionBase implements ISMSAction {
 	}
 
 	// 删除短消息
-	public String deleteSms() throws Exception {
+	public String delete() throws Exception {
 		// 参数检验
 		if (smsID==null || smsID <= 0) {
 			this.addFieldError("smsID", "请选择需要删除的短消息");
 			return INPUT;
 		}
 		// 删除短消息
-		String result = smsService.deleteSmsByID(smsID);
+		String result = smsService.delete(smsID);
 		if (result.equals(LOGIN)) {
 			this.addActionError("您尚未登录，请重新登录");
 			return LOGIN;
@@ -143,7 +142,7 @@ public class SMSAction extends SMSActionBase implements ISMSAction {
 	}
 
 	// 修改短消息
-	public String editSms() throws Exception {
+	public String edit() throws Exception {
 		// 参数检验
 		if (smsID==null || smsID <= 0) {
 			this.addFieldError("smsID", "请选择需要修改的短消息");
@@ -158,7 +157,7 @@ public class SMSAction extends SMSActionBase implements ISMSAction {
 			return INPUT;
 		}
 		// 修改短消息
-		String result = smsService.editSms(smsID,smsReader,smsContent);
+		String result = smsService.edit(smsID,smsReader,smsContent);
 		if (result.equals(LOGIN)) {
 			this.addActionError("您尚未登录，请重新登录");
 			return LOGIN;

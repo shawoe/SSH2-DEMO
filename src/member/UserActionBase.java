@@ -2,11 +2,8 @@ package member;
 
 import java.io.File;
 import java.util.List;
-
 import util.PageUtil;
-
 import com.opensymphony.xwork2.ActionSupport;
-
 
 @SuppressWarnings("serial")
 public abstract class UserActionBase extends ActionSupport {

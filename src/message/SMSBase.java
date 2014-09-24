@@ -4,10 +4,10 @@ public abstract class SMSBase {
 
 	//声明属性
 	private Integer smsID;
-    private String smsUserName;
+    private String smsUser;
     private String smsContent;
-    private String smsSendTime;
-    private Boolean smsIsRead;
+    private String smsTime;
+    private Boolean smsRead;
     private String smsSender;
     
     // 默认构造方法
@@ -24,12 +24,12 @@ public abstract class SMSBase {
 		return smsID;
 	}
 
-	public String getSmsUserName() {
-		return smsUserName;
+	public String getSmsUser() {
+		return smsUser;
 	}
 
-	public void setSmsUserName(String smsUserName) {
-		this.smsUserName = smsUserName;
+	public void setSmsUser(String smsUser) {
+		this.smsUser = smsUser;
 	}
 
 	public String getSmsContent() {
@@ -40,20 +40,20 @@ public abstract class SMSBase {
 		this.smsContent = smsContent;
 	}
 
-	public String getSmsSendTime() {
-		return smsSendTime;
+	public String getSmsTime() {
+		return smsTime;
 	}
 
-	public void setSmsSendTime(String smsSendTime) {
-		this.smsSendTime = smsSendTime;
+	public void setSmsTime(String smsTime) {
+		this.smsTime = smsTime;
 	}
 
-	public Boolean getSmsIsRead() {
-		return smsIsRead;
+	public Boolean getSmsRead() {
+		return smsRead;
 	}
 
-	public void setSmsIsRead(Boolean smsIsRead) {
-		this.smsIsRead = smsIsRead;
+	public void setSmsRead(Boolean smsRead) {
+		this.smsRead = smsRead;
 	}
 
 	public String getSmsSender() {
@@ -67,6 +67,8 @@ public abstract class SMSBase {
 	public void setSmsID(Integer smsID) {
 		this.smsID = smsID;
 	}
+
+
 
     
 	
