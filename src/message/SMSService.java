@@ -13,6 +13,7 @@ public class SMSService extends SMSServiceBase implements InterfaceServiceMessag
 		if (currentUser == null || currentUser.trim().length() == 0)
 			return LOGIN;
 		// ÃÓ–¥–≈œ¢
+		sms = new SMS();
 		sms.setSmsSender(currentUser);
 		sms.setSmsUser(smsReader);
 		sms.setSmsContent(smsContent);
@@ -88,6 +89,11 @@ public class SMSService extends SMSServiceBase implements InterfaceServiceMessag
 		if(smsDAO.update(sms))
 			return SUCCESS;
 		return ERROR;
+	}
+
+	public List<SMS> getAll(Integer pageNow, Integer pageSize) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

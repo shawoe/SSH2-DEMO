@@ -3,9 +3,9 @@
           "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
           "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
 
-<hibernate-mapping package="bean">
+<hibernate-mapping package="member">
 
-    <class name="member.User" table="tab_user">
+    <class name="User" table="tab_user">
     	<!-- 设置主键 -->
         <id name="userID" column="user_id" type="java.lang.Integer">
             <generator class="native"/>

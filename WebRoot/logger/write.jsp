@@ -8,7 +8,7 @@
 	<s:include value="../nav/header.jsp" />
 	<h2>写信息</h2>
 	<%--写信息表单,提交到write.action--%>
-	<s:form action="sendSMS" method="get">
+	<s:form action="sendSms" method="get">
 		<s:textfield name="smsReader" label="收件人" />
 		<s:textfield name="smsContent" label="信息内容" />
 		<s:submit value="发送" />

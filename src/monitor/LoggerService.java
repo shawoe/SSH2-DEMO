@@ -1,6 +1,7 @@
 package monitor;
 
 import java.util.List;
+import util.PageUtil;
 import api.InterfaceServiceMessage;
 
 public class LoggerService extends LoggerServiceBase implements InterfaceServiceMessage<Logger>{
@@ -12,6 +13,7 @@ public class LoggerService extends LoggerServiceBase implements InterfaceService
 		if (currentUser == null || currentUser.trim().length() == 0)
 			return LOGIN;
 		// 填写日志
+		logger = new Logger();
 		logger.setLoggerUser(currentUser);
 		logger.setLoggerAction(loggerAction);
 		logger.setLoggerTime(simpleDateFormat.format(date));
@@ -39,9 +41,19 @@ public class LoggerService extends LoggerServiceBase implements InterfaceService
 	}
 
 	// 查询消息
-	public List<Logger> getAll() {
+	public List<Logger> getAll(Integer pageNow, Integer pageSize) {
 		List<Logger> loggerList = loggerDAO.findAll();
-		return loggerList;
+		PageUtil<Logger> page = new PageUtil<Logger>();
+		List<Logger> loggerPartPage = page.partPage(loggerList, pageNow, pageSize);
+		return loggerPartPage;
+	}
+	
+	// 查询分页总数
+	public Integer getPageCount(Integer pageSize) {
+		List<Logger> loggerList = loggerDAO.findAll();
+		PageUtil<Logger> page = new PageUtil<Logger>();
+		Integer pageCount = page.pageCount(loggerList,pageSize);
+		return pageCount;
 	}
 	
 	public List<Logger> getMessageByUserName(String loggerUser) {
@@ -81,13 +93,6 @@ public class LoggerService extends LoggerServiceBase implements InterfaceService
 		// TODO Auto-generated method stub
 		return null;
 	}
-
-
-	public Integer getPageCount(Integer pageSize) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 
 	public String send(String reader, String content) {
 		// TODO Auto-generated method stub

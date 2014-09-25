@@ -8,30 +8,18 @@
 	<meta name="description" content="A demonstration of what can be accomplished through Java EE.">
 	<meta name="robots" content="all">
 </head>
-<body id="home-page">
-
-	<header>
-		<p>header</p>
-	</header>
-	
-	<nav>
-		<p>nav</p>
-	</nav>
-	
+<body id="home-page">	
 	<div class="primary">
 	<s:if test="%{#session.currentUser == null}">
-		<ul><p>您还未登录：</p>
-    		<li><a href="user/login.jsp">现在登录</a></li>
-    		<li><a href="user/register.jsp">立即注册</a></li>
-    	</ul>
+		<p>您还未登录：</p>
+    	<a href="user/login.jsp">现在登录</a>
+    	<a href="user/register.jsp">立即注册</a>
 	</s:if>
 	<s:else>
-		<ul>
-			<spen><img src="avatars/admin.jpg"></spen>
-			<spen><s:property value="#session.currentUser" />，欢迎光临<spen>
-    		<li><a href="user/welcome.jsp">点击出处进入主页</a></li>
-  			<li><a href="logoutUser">退出登录</a></li>
-  		</ul>
+		<img src="avatars/admin.jpg">
+		<p><s:property value="#session.currentUser" />，欢迎光临</p>
+    	<a href="user/welcome.jsp">点击出处进入主页</a>
+  		<a href="logoutUser">退出登录</a>
   	</s:else>
 	</div>
 	
@@ -41,9 +29,5 @@
 		<s:property value="#session.onlineUser"/>
 	</div>
 	
-	<footer>
-		<p>footer</p>
-	</footer>
-
 </body>
 </html>

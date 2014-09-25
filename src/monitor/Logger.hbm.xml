@@ -3,7 +3,7 @@
           "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
           "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
 
-<hibernate-mapping package="bean">
+<hibernate-mapping package="monitor">
     <class name="Logger" table="tab_logger">
     	<!-- 设置主键 -->
         <id name="loggerID" column="logger_id" type="java.lang.Integer">

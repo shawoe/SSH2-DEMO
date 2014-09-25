@@ -3,8 +3,8 @@
           "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
           "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
 
-<hibernate-mapping package="bean">
-    <class name="message.SMS" table="tab_sms">
+<hibernate-mapping package="message">
+    <class name="SMS" table="tab_sms">
     	<!-- 设置主键 -->
         <id name="smsID" column="sms_id" type="java.lang.Integer">
             <generator class="native"/>

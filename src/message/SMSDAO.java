@@ -9,7 +9,7 @@ public class SMSDAO extends HibernateDaoSupport implements InterfaceDAO<SMS> {
 	// ≤È’“–≈œ¢
 	@SuppressWarnings("unchecked")
 	public List<SMS> findDataByUserName(String userName) {
-		List<SMS> smsList =  this.getHibernateTemplate().find("from Sms sms where sms.smsUserName=?",userName);
+		List<SMS> smsList =  this.getHibernateTemplate().find("from SMS sms where sms.smsUser=?",userName);
 		return smsList;
 	}     
 

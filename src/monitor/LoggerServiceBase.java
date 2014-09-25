@@ -12,7 +12,7 @@ public abstract class LoggerServiceBase implements util.ConstantUtil {
 
 	// “¿¿µ◊¢»Î Ù–‘
 	protected Logger logger;
-	protected LoggerDao loggerDAO;
+	protected LoggerDAO loggerDAO;
 	protected UserDAO userDAO;
 	protected Date date;
 	protected SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
@@ -20,11 +20,11 @@ public abstract class LoggerServiceBase implements util.ConstantUtil {
 	
 
 	//  Ù–‘Getter/Setter
-	public LoggerDao getLoggerDAO() {
+	public LoggerDAO getLoggerDAO() {
 		return loggerDAO;
 	}
 
-	public void setLoggerDAO(LoggerDao loggerDAO) {
+	public void setLoggerDAO(LoggerDAO loggerDAO) {
 		this.loggerDAO = loggerDAO;
 	}
 

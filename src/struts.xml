@@ -92,27 +92,27 @@
         </action>	
 		
 	<!-- Message.SMSAction -->
-		<action name="readSms" class="message.SMSAction" method="read">
+		<action name="readSMS" class="message.SMSAction" method="read">
 			<result name="error" type="redirect">/sms/error.jsp</result>
 			<result name="success" type="dispatcher">/sms/read.jsp</result>
 		</action>
-		<action name="readFirstSms" class="message.SMSAction" method="readFirst">
+		<action name="readFirstSMS" class="message.SMSAction" method="readFirst">
 			<result name="error" type="redirect">/sms/error.jsp</result>
 			<result name="success" type="dispatcher">/sms/read.jsp</result>
 		</action>
-		<action name="readNextSms" class="message.SMSAction" method="readNext">
+		<action name="readNextSMS" class="message.SMSAction" method="readNext">
 			<result name="error" type="redirect">/sms/error.jsp</result>
 			<result name="success" type="dispatcher">/sms/read.jsp</result>
 		</action>
-		<action name="readLastSms" class="message.SMSAction" method="readLast">
+		<action name="readLastSMS" class="message.SMSAction" method="readLast">
 			<result name="error" type="redirect">/sms/error.jsp</result>
 			<result name="success" type="dispatcher">/sms/read.jsp</result>
 		</action>
-		<action name="readEndSms" class="message.SmsAction" method="readEnd">
+		<action name="readEndSMS" class="message.SMSAction" method="readEnd">
 			<result name="error" type="redirect">/sms/error.jsp</result>
 			<result name="success" type="dispatcher">/sms/read.jsp</result>
 		</action>
-		<action name="sendSms" class="message.SMSAction" method="sendSms">
+		<action name="sendSMS" class="message.SMSAction" method="sendSMS">
 			<!-- Stop double-submission of forms -->
 			<interceptor-ref name="defaultStack"/>
         	<interceptor-ref name="token" />
@@ -121,9 +121,31 @@
 			<result name="login" type="redirect">/user/login.jsp</result>
 			<result name="none" type="redirect">/user/login.jsp</result>
 			<result name="input" type="dispatcher">/sms/write.jsp</result>
-			<result name="success" type="redirectAction">sms/readFirstSms</result>
+			<result name="success" type="redirectAction">sms/readFirstSMS</result>
 		</action>
-
+		
+	<!-- Monitor.LoggerAction -->
+		<action name="readLogger" class="monitor.LoggerAction" method="read">
+			<result name="error" type="redirect">/logger/error.jsp</result>
+			<result name="success" type="dispatcher">/logger/read.jsp</result>
+		</action>
+		<action name="readFirstLogger" class="monitor.LoggerAction" method="readFirst">
+			<result name="error" type="redirect">/logger/error.jsp</result>
+			<result name="success" type="dispatcher">/logger/read.jsp</result>
+		</action>
+		<action name="readNextLogger" class="monitor.LoggerAction" method="readNext">
+			<result name="error" type="redirect">/logger/error.jsp</result>
+			<result name="success" type="dispatcher">/logger/read.jsp</result>
+		</action>
+		<action name="readLastLogger" class="monitor.LoggerAction" method="readLast">
+			<result name="error" type="redirect">/logger/error.jsp</result>
+			<result name="success" type="dispatcher">/logger/read.jsp</result>
+		</action>
+		<action name="readEndLogger" class="monitor.LoggerAction" method="readEnd">
+			<result name="error" type="redirect">/logger/error.jsp</result>
+			<result name="success" type="dispatcher">/logger/read.jsp</result>
+		</action>
+		
 	</package>
 </struts>
 

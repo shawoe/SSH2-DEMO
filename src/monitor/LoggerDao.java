@@ -1,12 +1,10 @@
 package monitor;
 
 import java.util.List;
-
 import member.User;
-
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
-public class LoggerDao extends HibernateDaoSupport implements api.InterfaceDAO<Logger> {
+public class LoggerDAO extends HibernateDaoSupport implements api.InterfaceDAO<Logger> {
 	
 	// ≤È’“»’÷æ
 	@SuppressWarnings("unchecked")
