@@ -1,6 +1,6 @@
 package monitor;
 
-public class Logger extends LoggerBase {
+public class Logger extends LoggerBean {
 
 	//默认构造方法
     public Logger() {

@@ -2,9 +2,10 @@ package monitor;
 
 import java.util.List;
 import member.User;
-import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
+import platform.BaseDAO;
+import platform.InterfaceDAOCommon;
 
-public class LoggerDAO extends HibernateDaoSupport implements api.InterfaceDAO<Logger> {
+public class LoggerDAO extends BaseDAO<Logger> implements InterfaceDAOCommon<Logger> {
 	
 	// ≤È’“»’÷æ
 	@SuppressWarnings("unchecked")
@@ -14,8 +15,8 @@ public class LoggerDAO extends HibernateDaoSupport implements api.InterfaceDAO<L
 	}
 	
 	@SuppressWarnings("unchecked")
-	public List<Logger> findDataByUserName(String loggerUser) {
-		List<Logger> LoggerList = (List<Logger>) this.getHibernateTemplate().find("from Logger logger where logger.user_name=?",loggerUser);
+	public List<Logger> findUserData(String loggerUser) {
+		List<Logger> LoggerList = (List<Logger>) this.getHibernateTemplate().find("from Logger logger where logger.operator=?",loggerUser);
 		return LoggerList;
 	}
 	
@@ -53,7 +54,7 @@ public class LoggerDAO extends HibernateDaoSupport implements api.InterfaceDAO<L
 	}
 
 	@SuppressWarnings("unchecked")
-	public boolean deleteDataByUserName(String userName) {
+	public boolean deleteUserData(String userName) {
 		List<User> userList = this.getHibernateTemplate().find("from User user where user.userName=?", userName);
 		if (userList.size() >= 0) {
 			User user = userList.get(0);
@@ -62,9 +63,6 @@ public class LoggerDAO extends HibernateDaoSupport implements api.InterfaceDAO<L
 		}
 		return false;
 	}
-
-
-
 
 
 

@@ -11,7 +11,7 @@
         </id>
  
  		<!-- 设置其他属性 -->
-        <property name="smsUser" column="sms_user" type="java.lang.String" length="45" />
+        <property name="smsReader" column="sms_reader" type="java.lang.String" length="45" />
         <property name="smsContent" column="sms_content" type="java.lang.String" length="2000" />
         <property name="smsTime" column="sms_time" type="java.lang.String" length="45" />
         <property name="smsRead" column="sms_read" type="java.lang.Boolean" />

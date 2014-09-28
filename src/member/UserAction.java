@@ -1,7 +1,32 @@
 package member;
 
+import java.io.File;
+import java.util.List;
+
+import platform.BaseAction;
+
 @SuppressWarnings("serial")
-public class UserAction extends UserActionBase {
+public class UserAction extends BaseAction {
+	
+	// 设置属性
+	protected String userName;  
+	protected String userPassword;
+	protected String oldUserPassword;
+	protected String newUserPassword;
+	protected String passwordConfirm;
+	protected String userAvatar;
+	protected String userSex;
+	protected String userBirth;
+	protected String userEmail;    
+	
+	protected User user;
+	protected UserService userService;
+	protected List<User> allUsers;
+	
+	protected File avatarsImage; 				//上传的头像文件
+	protected String avatarsImageFileName; 		//头像文件名称
+	protected String avatarsImageContentType; 	//头像文件类型
+	
 
 	// 用户登录
 	public String login() throws Exception {
@@ -35,20 +60,7 @@ public class UserAction extends UserActionBase {
 	// 退出登录
 	public String logout() throws Exception {
 		String result = userService.logout();
-		if (result.equals(LOGIN)) {
-			this.addActionError("您尚未登陆");
-			return LOGIN;
-		}
-		if (result.equals(NONE)) {
-			this.addActionError("用户不存在");
-			return NONE;
-		}
-		if (result.equals(SUCCESS)) {
-			this.addActionMessage("成功登陆");
-			return SUCCESS;
-		}
-		this.addActionError("退出登陆失败");
-		return ERROR;
+		return returnAction(result);
 	}
 
 	// 用户注册
@@ -89,12 +101,7 @@ public class UserAction extends UserActionBase {
 			this.addFieldError("userName", "用户已存在");
 			return INPUT;
 		}
-		if (result.equals(SUCCESS)) {
-			this.addActionMessage("成功登陆");
-			return SUCCESS;
-		}
-		this.addActionError("注册失败");
-		return ERROR;
+		return returnAction(result);
 	}
 
 	// 编辑用户资料
@@ -118,24 +125,11 @@ public class UserAction extends UserActionBase {
 		}
 		// 编辑用户资料
 		String result = userService.editData(userPassword, userSex, userBirth, userEmail);
-		if (result.equals(LOGIN)) {
-			this.addActionError("您尚未登录，请重新登录");
-			return LOGIN;
-		}
-		if (result.equals(NONE)) {
-			this.addActionError("用户不存在");
-			return NONE;
-		}
 		if (result.equals(INPUT)) {
 			this.addFieldError("userPassword", "密码输入有误，请重新输入");
 			return INPUT;
 		}
-		if (result.equals(SUCCESS)) {
-			this.addActionMessage("修改资料成功");
-			return SUCCESS;
-		}
-		this.addActionError("修改资料失败");
-		return ERROR;
+		return returnAction(result);
 	}
 
 	// 修改用户密码
@@ -159,28 +153,15 @@ public class UserAction extends UserActionBase {
 		}
 		// 修改用户密码
 		String result = userService.changePassword(oldUserPassword, newUserPassword);
-		if (result.equals(LOGIN)) {
-			this.addActionError("您尚未登录，请重新登录");
-			return LOGIN;
-		}
-		if (result.equals(NONE)) {
-			this.addActionError("用户不存在");
-			return NONE;
-		}
 		if (result.equals(INPUT)) {
 			this.addFieldError("oldUserPassword", "原密码输入有误，请重新输入");
 			return INPUT;
 		}
-		if (result.equals(SUCCESS)) {
-			this.addActionMessage("修改密码成功");
-			return SUCCESS;
-		}
-		this.addActionError("修改密码失败");
-		return ERROR;
+		return returnAction(result);
 	}
 
 	// 查看所有用户
-	public String showAllUsers() throws Exception {
+	public String showAll() throws Exception {
 		allUsers = userService.getAllUsers();
 		if (allUsers != null) {
 			this.addActionMessage("查看所有用户成功");
@@ -191,7 +172,7 @@ public class UserAction extends UserActionBase {
 	}
 
 	// 查看用户资料
-	public String showUser() throws Exception {
+	public String show() throws Exception {
 		user = userService.getCurrentUserData();
 		if (user != null) {
 			userName = user.getUserName();
@@ -206,7 +187,7 @@ public class UserAction extends UserActionBase {
 	}
 
 	// 上传头像
-	public String uploadAvatars() throws Exception {
+	public String uploadAvatar() throws Exception {
 		// 参数检验
 		if (avatarsImage == null) {
 			this.addFieldError("avatarsImage", "图片文件不能为空");
@@ -224,15 +205,129 @@ public class UserAction extends UserActionBase {
 		}
 		// 上传头像
 		String result = userService.uploadAvatars(avatarsImage,avatarsImageFileName, avatarsImageContentType);
-		if (result.equals(LOGIN)) {
-			this.addActionError("您尚未登录，请重新登录");
-			return LOGIN;
-		}
-		if (result.equals(SUCCESS)) {
-			this.addActionMessage("上传头像成功");
-			return SUCCESS;
-		}
-		this.addActionError("上传头像失败");
-		return ERROR;
+		return returnAction(result);
 	}
+	
+
+	// 默认属性Getter/Setter
+	public User getUser() {
+		return user;
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
+	public String getUserPassword() {
+		return userPassword;
+	}
+
+	public void setUserPassword(String userPassword) {
+		this.userPassword = userPassword;
+	}
+
+	public String getOldUserPassword() {
+		return oldUserPassword;
+	}
+
+	public void setOldUserPassword(String oldUserPassword) {
+		this.oldUserPassword = oldUserPassword;
+	}
+
+	public String getNewUserPassword() {
+		return newUserPassword;
+	}
+
+	public void setNewUserPassword(String newUserPassword) {
+		this.newUserPassword = newUserPassword;
+	}
+
+	public String getPasswordConfirm() {
+		return passwordConfirm;
+	}
+
+	public void setPasswordConfirm(String passwordConfirm) {
+		this.passwordConfirm = passwordConfirm;
+	}
+
+	public String getUserAvatar() {
+		return userAvatar;
+	}
+
+	public void setUserAvatar(String userAvatar) {
+		this.userAvatar = userAvatar;
+	}
+
+	public String getUserSex() {
+		return userSex;
+	}
+
+	public void setUserSex(String userSex) {
+		this.userSex = userSex;
+	}
+
+	public String getUserBirth() {
+		return userBirth;
+	}
+
+	public void setUserBirth(String userBirth) {
+		this.userBirth = userBirth;
+	}
+
+	public String getUserEmail() {
+		return userEmail;
+	}
+
+	public void setUserEmail(String userEmail) {
+		this.userEmail = userEmail;
+	}
+
+	public UserService getUserService() {
+		return userService;
+	}
+
+	public void setUserService(UserService userService) {
+		this.userService = userService;
+	}
+
+	public List<User> getAllUsers() {
+		return allUsers;
+	}
+
+	public void setAllUsers(List<User> allUsers) {
+		this.allUsers = allUsers;
+	}
+
+	public File getAvatarsImage() {
+		return avatarsImage;
+	}
+
+	public void setAvatarsImage(File avatarsImage) {
+		this.avatarsImage = avatarsImage;
+	}
+
+	public String getAvatarsImageFileName() {
+		return avatarsImageFileName;
+	}
+
+	public void setAvatarsImageFileName(String avatarsImageFileName) {
+		this.avatarsImageFileName = avatarsImageFileName;
+	}
+
+	public String getAvatarsImageContentType() {
+		return avatarsImageContentType;
+	}
+
+	public void setAvatarsImageContentType(String avatarsImageContentType) {
+		this.avatarsImageContentType = avatarsImageContentType;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+	
 }

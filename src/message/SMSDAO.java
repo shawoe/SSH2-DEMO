@@ -1,15 +1,15 @@
 package message;
 
 import java.util.List;
-import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
-import api.InterfaceDAO;
+import platform.BaseDAO;
+import platform.InterfaceDAOCommon;
 
-public class SMSDAO extends HibernateDaoSupport implements InterfaceDAO<SMS> {
+public class SMSDAO extends BaseDAO<SMS> implements InterfaceDAOCommon<SMS> {
 	
 	// ≤È’“–≈œ¢
 	@SuppressWarnings("unchecked")
-	public List<SMS> findDataByUserName(String userName) {
-		List<SMS> smsList =  this.getHibernateTemplate().find("from SMS sms where sms.smsUser=?",userName);
+	public List<SMS> findUserData(String userName) {
+		List<SMS> smsList =  this.getHibernateTemplate().find("from SMS sms where sms.smsReader=?",userName);
 		return smsList;
 	}     
 
@@ -46,7 +46,7 @@ public class SMSDAO extends HibernateDaoSupport implements InterfaceDAO<SMS> {
 		return false;
 	}
 
-	public boolean deleteDataByUserName(String name) {
+	public boolean deleteUserData(String name) {
 		// TODO Auto-generated method stub
 		return false;
 	}

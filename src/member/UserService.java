@@ -5,21 +5,23 @@ import java.io.IOException;
 import java.util.List;
 import org.apache.commons.io.FileUtils;
 import org.apache.struts2.ServletActionContext;
+import platform.BaseService;
 
-public class UserService extends UserServiceBase {
+public class UserService extends BaseService<User> {
 
+	// 依赖注入属性
+	protected UserDAO userDAO;
+	
 	// 用户登录
 	public String login(String userName, String userPassword) {
 		// 获取用户
-		user = userDAO.findUser(userName);
+		User user = userDAO.findUser(userName);
 		if (user == null)
 			return NONE;
 		if (!userPassword.equals(user.getUserPassword()))
 			return INPUT;
 		// 用户登录
-		if (!sessionUtil.setOnlineUser(userName))
-			return ERROR;
-		if (!sessionUtil.setSessionUser(userName))
+		if (!this.setCurrentUser(userName))
 			return ERROR;
 		// 存至数据库
 		user.setUserOnline(true);
@@ -31,16 +33,13 @@ public class UserService extends UserServiceBase {
 	// 执行退出登录
 	public String logout() {
 		// 获取当前用户
-		currentUser = sessionUtil.getSessionUser();
 		if (currentUser == null || currentUser.trim().length() == 0)
 			return LOGIN;
-		user = userDAO.findUser(currentUser);
+		User user = userDAO.findUser(currentUser);
 		if (user == null)
 			return NONE;
 		// 执行退出登录
-		if (!sessionUtil.removeOnlineUser())
-			return ERROR;
-		if (!sessionUtil.removeSessionUser())
+		if (!this.removeCurrentUser())
 			return ERROR;
 		// 存至数据库
 		user.setUserOnline(false);
@@ -52,7 +51,7 @@ public class UserService extends UserServiceBase {
 	// 注册新用户
 	public String register(String userName, String userPassword, String userSex, String userBirth, String userEmail) {
 		// 获取用户
-		user = userDAO.findUser(userName);
+		User user = userDAO.findUser(userName);
 		if (user != null)
 			return INPUT;
 		// 注册新用户
@@ -63,7 +62,7 @@ public class UserService extends UserServiceBase {
 		user.setUserBirth(userBirth);
 		user.setUserEmail(userEmail);
 		user.setUserOnline(false);
-		user.setUserAvatars("../avatars/default-avatars.jsp");
+		user.setUserAvatar("../avatar/default-avatar.jsp");
 		// 存至数据库
 		if (userDAO.insert(user))
 			return SUCCESS;
@@ -83,7 +82,7 @@ public class UserService extends UserServiceBase {
 	public String deleteUserByName(String userName) {
 		if (userDAO.findUser(userName) == null)
 			return INPUT;
-		if (userDAO.deleteDataByUserName(userName))
+		if (userDAO.deleteUserData(userName))
 			return SUCCESS;
 		return ERROR;
 	}
@@ -100,7 +99,6 @@ public class UserService extends UserServiceBase {
 
 	// 获取当前用户资料
 	public User getCurrentUserData() {
-		currentUser = sessionUtil.getSessionUser();
 		if (currentUser != null || currentUser.trim().length() > 0) 
 			return userDAO.findUser(currentUser);
 		return null;
@@ -114,10 +112,9 @@ public class UserService extends UserServiceBase {
 	// 编辑用户
 	public String editData(String userPassword, String userSex, String userBirth, String userEmail) {
 		// 获取当前用户
-		currentUser = sessionUtil.getSessionUser();
 		if (currentUser == null || currentUser.trim().length() == 0)
 			return LOGIN;
-		user = userDAO.findUser(currentUser);
+		User user = userDAO.findUser(currentUser);
 		if (user == null)
 			return NONE;
 		if (!user.getUserPassword().equals(userPassword)) 
@@ -135,10 +132,9 @@ public class UserService extends UserServiceBase {
 	// 修改用户密码
 	public String changePassword(String oldUserPassword, String newUserPassword) {
 		// 获取当前用户
-		currentUser = sessionUtil.getSessionUser();
 		if (currentUser == null || currentUser.trim().length() == 0)
 			return LOGIN;
-		user = userDAO.findUser(currentUser);
+		User user = userDAO.findUser(currentUser);
 		if (user == null)
 			return NONE;
 		if (!user.getUserPassword().equals(oldUserPassword))
@@ -153,11 +149,10 @@ public class UserService extends UserServiceBase {
 	// 上传头像
 	public String uploadAvatars(File avatarsImage, String avatarsImageFileName,String avatarsImageContentType) {
 		// 获取路径
-		String realPath = ServletActionContext.getServletContext().getRealPath("/avatars");
+		String realPath = ServletActionContext.getServletContext().getRealPath("/avatar");
 		// 获取图片类型
 		String imageType = avatarsImageFileName.substring(avatarsImageFileName.lastIndexOf(".") + 1, avatarsImageFileName.length());
 		// 获取当前用户
-		currentUser = sessionUtil.getSessionUser();
 		if (currentUser == null || currentUser.trim().length() == 0)
 			return LOGIN;
 		// 保存图片
@@ -170,6 +165,15 @@ public class UserService extends UserServiceBase {
 		} catch (IOException e) {
 			return ERROR;
 		}
+	}
+
+	// 默认属性Getter/Setter
+	public UserDAO getUserDAO() {
+		return userDAO;
+	}
+
+	public void setUserDAO(UserDAO userDAO) {
+		this.userDAO = userDAO;
 	}
 	
 }

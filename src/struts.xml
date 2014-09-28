@@ -20,7 +20,6 @@
     <constant name="struts.multipart.maxSize" value="107010960"/>
     <!-- 设置上传文件的临时文件夹 -->
     <constant name="struts.multipart.saveDir " value="/upload" />
-    
 	<!-- Action必须放在指定的包名空间中-->
 	<package name="struts2" extends="struts-default">
 	
@@ -51,15 +50,15 @@
 			<result name="input" type="dispatcher">/user/register.jsp</result>
 			<result name="success" type="redirect">/user/login.jsp</result>
 		</action>
-		<action name="showAllUsers" class="member.UserAction" method="showAllUsers">
+		<action name="showAllUsers" class="member.UserAction" method="showAll">
 			<result name="none" type="redirect">/user/show.jsp</result>
 			<result name="success" type="dispatcher">/user/show.jsp</result>
 		</action>
-		<action name="showUser" class="member.UserAction" method="showUser">
+		<action name="showUser" class="member.UserAction" method="show">
 			<result name="login" type="redirect">/user/login.jsp</result>
 			<result name="success" type="dispatcher">/user/edit.jsp</result>
 		</action>
-		<action name="editUser" class="member.UserAction" method="editData">
+		<action name="editUser" class="member.UserAction" method="edit">
 			<!-- Stop double-submission of forms -->
 			<interceptor-ref name="defaultStack"/>
         	<interceptor-ref name="token" />
@@ -81,7 +80,7 @@
 			<result name="input" type="dispatcher">/user/command.jsp</result>
 			<result name="success" type="redirectAction">logoutUser</result>
 		</action>
-        <action name="uploadAvatars" class="member.UserAction" method="uploadAvatars">
+        <action name="uploadAvatar" class="member.UserAction" method="uploadAvatar">
 			<!-- Stop double-submission of forms -->
 			<interceptor-ref name="defaultStack"/>
         	<interceptor-ref name="token" />
@@ -112,7 +111,7 @@
 			<result name="error" type="redirect">/sms/error.jsp</result>
 			<result name="success" type="dispatcher">/sms/read.jsp</result>
 		</action>
-		<action name="sendSMS" class="message.SMSAction" method="sendSMS">
+		<action name="sendSMS" class="message.SMSAction" method="send">
 			<!-- Stop double-submission of forms -->
 			<interceptor-ref name="defaultStack"/>
         	<interceptor-ref name="token" />

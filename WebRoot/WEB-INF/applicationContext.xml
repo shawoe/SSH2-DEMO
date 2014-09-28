@@ -64,12 +64,6 @@
 		</property>
 	</bean>
 
-<!-- 工具模块 -->
-	<!-- 配置DateUtil组件 -->
-	<bean id="date" class="java.util.Date" />
-	<!-- 配置SessionUtil组件 -->
-	<bean id="sessionUtil" class="util.SessionUtil" />
-
 <!-- 用户管理模块 -->
 	<!-- 配置用户Bean组件 -->
 	<bean id="user" class="member.User" />
@@ -79,10 +73,7 @@
 	</bean>
 	<!-- 配置用户Service组件 -->
 	<bean id="userService" class="member.UserService" scope="prototype">
-		<property name="user" ref="user" />
 		<property name="userDAO" ref="userDAO" />
-		<property name="date" ref="date" />
-		<property name="sessionUtil" ref="sessionUtil" />
 	</bean>
 	<!-- 配置用户Action组件 -->
 	<bean id="userAction" class="member.UserAction" scope="prototype">
@@ -98,11 +89,8 @@
 	</bean>
 	<!-- 配置短消息Service组件 -->
 	<bean id="smsService" class="message.SMSService" scope="prototype">
-		<property name="sms" ref="sms" />
 		<property name="smsDAO" ref="smsDAO" />
 		<property name="userDAO" ref="userDAO" />
-		<property name="date" ref="date" />
-		<property name="sessionUtil" ref="sessionUtil" />
 	</bean>
 	<!-- 配置短消息Action组件 -->
 	<bean id="smsAction" class="message.SMSAction" scope="prototype">
@@ -118,11 +106,8 @@
 	</bean>
 	<!-- 配置日志Service组件 -->
 	<bean id="loggerService" class="monitor.LoggerService" scope="prototype">
-		<property name="logger" ref="logger" />
 		<property name="loggerDAO" ref="loggerDAO" />
 		<property name="userDAO" ref="userDAO" />
-		<property name="date" ref="date" />
-		<property name="sessionUtil" ref="sessionUtil" />
 	</bean>
 	<!-- 配置日志Advice组件 -->
 	<bean id="loggerAdvice"	class="monitor.LoggerAdvice" scope="prototype">

@@ -7,7 +7,7 @@
 <body>
 	<s:include value="../nav/header.jsp" />
 	<h2>修改用户资料</h2>
-	<s:form action="editUser" method="get">
+	<s:form action="../user/editUser" method="get">
 		<s:textfield name="userName" label="用户名" />
 		<s:password name="userPassword" label="密码" />
 		<s:radio name="userSex" list="#{'man':'男', 'woman':'女'}" label="性别" />	

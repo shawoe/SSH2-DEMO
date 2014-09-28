@@ -24,7 +24,6 @@
 	</div>
 	
 	<div class="secondary">
-		<p>secondary</p>
 		<p>当前在线用户： </p>
 		<s:property value="#session.onlineUser"/>
 	</div>

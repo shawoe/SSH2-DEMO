@@ -1,10 +1,10 @@
 package member;
 
 import java.util.List;
-import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
-import api.InterfaceDAO;
+import platform.BaseDAO;
+import platform.InterfaceDAOCommon;
 
-public class FriendDAO extends HibernateDaoSupport implements InterfaceDAO<Friend> {
+public class FriendDAO extends BaseDAO<Friend> implements InterfaceDAOCommon<Friend> {
 	
 	// 填加好友
 	public boolean insert(Friend friend) {
@@ -27,7 +27,7 @@ public class FriendDAO extends HibernateDaoSupport implements InterfaceDAO<Frien
 	
 	// 删除好友
 	@SuppressWarnings("unchecked")
-	public boolean deleteDataByUserName(String friendUser, String friendTarget) {
+	public boolean deleteUserData(String friendUser, String friendTarget) {
 		List<Friend> friendList = this.getHibernateTemplate().find("from Friend friend where friend.friendUser=? and friend.friendTarget=?", friendUser, friendTarget);
 		if (friendList.size() == 1) {
 			Friend friend = friendList.get(0); 
@@ -45,7 +45,7 @@ public class FriendDAO extends HibernateDaoSupport implements InterfaceDAO<Frien
 
 	// 查询好友
 	@SuppressWarnings("unchecked")
-	public Friend findDataByUserName(String friendUser, String friendTarget) {
+	public Friend findUserData(String friendUser, String friendTarget) {
 		List<Friend> friendList = this.getHibernateTemplate().find("from Friend friend where friend.friendUser=? and friend.friendTarget=?", friendUser, friendTarget);
 		if (friendList.size() == 1) {
 			Friend friend = friendList.get(0); 
@@ -70,7 +70,7 @@ public class FriendDAO extends HibernateDaoSupport implements InterfaceDAO<Frien
 		return false;
 	}
 
-	public boolean deleteDataByUserName(String name) {
+	public boolean deleteUserData(String name) {
 		// TODO Auto-generated method stub
 		return false;
 	}
@@ -80,7 +80,7 @@ public class FriendDAO extends HibernateDaoSupport implements InterfaceDAO<Frien
 		return null;
 	}
 
-	public List<Friend> findDataByUserName(String name) {
+	public List<Friend> findUserData(String name) {
 		// TODO Auto-generated method stub
 		return null;
 	}

@@ -1,10 +1,10 @@
 package member;
 
 import java.util.List;
-import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
-import api.InterfaceDAO;
+import platform.BaseDAO;
+import platform.InterfaceDAOCommon;
 
-public class UserDAO extends HibernateDaoSupport implements InterfaceDAO<User> {
+public class UserDAO extends BaseDAO<User >implements InterfaceDAOCommon<User> {
 	
 	// 填加用户
 	public boolean insert(User user) {
@@ -27,7 +27,7 @@ public class UserDAO extends HibernateDaoSupport implements InterfaceDAO<User> {
 	
 	// 删除用户
 	@SuppressWarnings("unchecked")
-	public boolean deleteDataByUserName(String userName) {
+	public boolean deleteUserData(String userName) {
 		List<User> userList = this.getHibernateTemplate().find("from User user where user.userName=?",userName);
 		if (userList.size() == 1) {
 			User user = userList.get(0); 
@@ -45,7 +45,7 @@ public class UserDAO extends HibernateDaoSupport implements InterfaceDAO<User> {
 
 	// 查询用户
 	@SuppressWarnings("unchecked")
-	public List<User> findDataByUserName(String userName) {
+	public List<User> findUserData(String userName) {
 		List<User> userList = this.getHibernateTemplate().find("from User user where user.userName=?",userName);
 		return userList;
 	}

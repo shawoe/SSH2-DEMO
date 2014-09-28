@@ -1,6 +1,6 @@
 package message;
 
-public class SMS extends SMSBase {
+public class SMS extends SMSBean {
 
 	//默认构造方法
     public SMS() {

@@ -11,7 +11,7 @@
         </id>
  
  		<!-- 设置其他属性 -->
-        <property name="loggerUser" column="logger_user" type="java.lang.String" length="45" />
+        <property name="loggerOperator" column="logger_operator" type="java.lang.String" length="45" />
         <property name="loggerAction" column="logger_action" type="java.lang.String" length="45" />
         <property name="loggerTime" column="logger_time" type="java.lang.String" length="45" />
         <property name="loggerSuccess" column="logger_success" type="java.lang.Boolean" />

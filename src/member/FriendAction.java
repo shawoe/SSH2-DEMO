@@ -1,7 +1,15 @@
 package member;
 
+import java.util.List;
+import platform.BaseAction;
+
 @SuppressWarnings("serial")
-public class FriendAction extends FriendActionBase {
+public class FriendAction extends BaseAction {
+	
+	// 设置属性
+	protected String friendName;
+	protected FriendService friendService;
+	protected List<Friend> allFriends;
 
 	// 添加好友
 	public String addFriend() throws Exception {
@@ -12,20 +20,11 @@ public class FriendAction extends FriendActionBase {
 		}
 		// 添加好友
 		String result = friendService.addFriend(friendName);
-		if (result.equals(LOGIN)) {
-			this.addActionError("您尚未登录，请重新登录");
-			return LOGIN;
-		}
 		if (result.equals(INPUT)) {
 			this.addFieldError("friendName", "好友已存在");
 			return INPUT;
 		}
-		if (result.equals(SUCCESS)) {
-			this.addActionMessage("成功添加好友");
-			return SUCCESS;
-		}
-		this.addActionError("添加好友失败");
-		return ERROR;
+		return returnAction(result);
 	}
 
 	// 查看所有好友
@@ -39,4 +38,29 @@ public class FriendAction extends FriendActionBase {
 		return NONE;
 	}
 
+	
+	// 默认属性Getter/Setter
+	public String getFriendName() {
+		return friendName;
+	}
+
+	public FriendService getFriendService() {
+		return friendService;
+	}
+
+	public void setFriendService(FriendService friendService) {
+		this.friendService = friendService;
+	}
+
+	public List<Friend> getAllFriends() {
+		return allFriends;
+	}
+
+	public void setAllFriends(List<Friend> allFriends) {
+		this.allFriends = allFriends;
+	}
+
+	public void setFriendName(String friendName) {
+		this.friendName = friendName;
+	}
 }

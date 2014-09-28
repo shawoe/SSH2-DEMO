@@ -1,6 +1,6 @@
 package member;
 
-public class Friend extends FriendBase{
+public class Friend extends FriendBean{
 	
 	// 默认构造方法
 	public Friend() {

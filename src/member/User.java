@@ -1,6 +1,6 @@
 package member;
 
-public class User extends UserBase{
+public class User extends UserBean{
 	
 	// 默认构造方法
 	public User() {

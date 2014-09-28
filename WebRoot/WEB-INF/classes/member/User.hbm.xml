@@ -18,7 +18,7 @@
         <property name="userOnline" column="user_online" type="java.lang.Boolean" />
         <property name="userBirth" column="user_birth" type="java.lang.String" length="45" />
         <property name="userEmail" column="user_email" type="java.lang.String" length="45" />
-        <property name="userAvatars" column="user_avatars" type="java.lang.String" length="100" />
+        <property name="userAvatar" column="user_avatar" type="java.lang.String" length="100" />
         
     </class>
     

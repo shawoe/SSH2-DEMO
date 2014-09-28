@@ -1,26 +1,55 @@
 package monitor;
 
 import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.ProceedingJoinPoint;
 
-public class LoggerAdvice extends LoggerAdviceBase{
+import platform.BaseAdvice;
+
+public class LoggerAdvice extends BaseAdvice<Logger>{
+	
+	// 声明属性
+	protected LoggerService loggerService;
+
+	// 属性Getter/Setter
+	public LoggerService getLoggerService() {
+		return loggerService;
+	}
+	
+	public void setLoggerService(LoggerService loggerService) {
+		this.loggerService = loggerService;
+	}
 	
 	// 用户登录
 	public void login(JoinPoint thisJoinPoint) {
-	    System.out.println(loggerService);
 	    loggerService.send("登录前台");
-
 	}
     
 	// 退出登录
 	public void logout(JoinPoint thisJoinPoint) {
-	    System.out.println(loggerService);
 	    loggerService.send("退出前台登录");
 	}
 
     // 发送消息
 	public void write(JoinPoint thisJoinPoint) {
-	    System.out.println(loggerService);
 	    loggerService.send("发送短消息");
+	}
+	
+	// 计时器
+	public Object timer(ProceedingJoinPoint thisJoinPoint) throws Throwable {
+		String clazzName = thisJoinPoint.getTarget().getClass().getName();
+		String methodName = thisJoinPoint.getSignature().getName();
+
+		// 计时并调用目标函数
+		long start = System.currentTimeMillis();
+		Object result = thisJoinPoint.proceed();
+		long time = System.currentTimeMillis() - start;
+
+		// 输出计时信息
+		System.out.println("北京时间:" + new java.util.Date() + " - 操作计时：" + time + "ms - 执行操作：" + clazzName + "." + methodName + "()");
+		
+		// 输出目标对象的参数
+		System.out.println(thisJoinPoint.getArgs().toString());
+		return result;
 	}
 }
 
