@@ -6,13 +6,12 @@ import java.util.List;
 import platform.BaseAction;
 
 @SuppressWarnings("serial")
-public class UserAction extends BaseAction {
+public class UserAction extends BaseAction{
 	
 	// 设置属性
 	protected String userName;  
 	protected String userPassword;
-	protected String oldUserPassword;
-	protected String newUserPassword;
+	protected String newPassword;
 	protected String passwordConfirm;
 	protected String userAvatar;
 	protected String userSex;
@@ -23,22 +22,18 @@ public class UserAction extends BaseAction {
 	protected UserService userService;
 	protected List<User> allUsers;
 	
-	protected File avatarsImage; 				//上传的头像文件
-	protected String avatarsImageFileName; 		//头像文件名称
-	protected String avatarsImageContentType; 	//头像文件类型
+	protected File avatarImage; 				//上传的头像文件
+	protected String avatarImageFileName; 		//头像文件名称
+	protected String avatarImageContentType; 	//头像文件类型
 	
 
 	// 用户登录
 	public String login() throws Exception {
 		// 参数检验
-		if (userName == null || userName.trim().length() == 0) {
-			this.addFieldError("userName", "用户名不能为空");
+		String[] paramName = {"用户名","密码"};
+		String[] paramField = {"userName","userPassword"};
+		if (check(paramName, paramField, userName, userPassword)) 
 			return INPUT;
-		}
-		if (userPassword == null || userPassword.trim().length() == 0) {
-			this.addFieldError("userPassword", "密码不能为空");
-			return INPUT;
-		}
 		// 用户登录
 		String result = userService.login(userName, userPassword);
 		if (result.equals(NONE)) {
@@ -49,12 +44,7 @@ public class UserAction extends BaseAction {
 			this.addFieldError("userPassword", "密码输入有误，请重新输入");
 			return LOGIN;
 		}
-		if (result.equals(SUCCESS)) {
-			this.addActionMessage("成功登陆");
-			return SUCCESS;
-		}
-		this.addActionError("登陆失败");
-		return ERROR;
+		return returnAction(result);
 	}
 
 	// 退出登录
@@ -66,33 +56,13 @@ public class UserAction extends BaseAction {
 	// 用户注册
 	public String register() throws Exception {
 		// 参数检验
-		if (userName == null || userName.trim().length() == 0) {
-			this.addFieldError("userName", "用户名不能为空");
+		String[] paramName = {"用户名","密码","确认密码","性别","生日","邮箱"};
+		String[] paramField = {"userName","userPassword","passwordConfirm","userSex","userBirth","userEmail"};
+		if (check(paramName, paramField, userName, userPassword, passwordConfirm, userSex, userBirth, userEmail)) 
 			return INPUT;
-		}
-		if (userPassword == null || userPassword.trim().length() == 0) {
-			this.addFieldError("userPassword", "密码不能为空");
-			return INPUT;
-		}
-		if (passwordConfirm == null || passwordConfirm.trim().length() == 0) {
-			this.addFieldError("passwordConfirm", "密码不能为空");
-			return INPUT;
-		}
 		if (!userPassword.equals(passwordConfirm)) {
 			this.addFieldError("userPassword", "密码填写不一致");
 			this.addFieldError("passwordConfirm", "密码填写不一致");
-			return INPUT;
-		}
-		if (userSex == null || userSex.trim().length() == 0) {
-			this.addFieldError("userSex", "性别不能为空");
-			return INPUT;
-		}
-		if (userBirth == null || userBirth.trim().length() == 0) {
-			this.addFieldError("userBirth", "生日不能为空");
-			return INPUT;
-		}
-		if (userEmail == null || userEmail.trim().length() == 0) {
-			this.addFieldError("userEmail", "邮箱不能为空");
 			return INPUT;
 		}
 		// 用户注册
@@ -107,24 +77,12 @@ public class UserAction extends BaseAction {
 	// 编辑用户资料
 	public String edit() throws Exception {
 		// 参数检验
-		if (userPassword == null || userPassword.trim().length() == 0) {
-			this.addFieldError("userPassword", "原密码不能为空");
+		String[] paramName = {"原密码","性别","生日","邮箱"};
+		String[] paramField = {"userPassword","userSex","userBirth","userEmail"};
+		if (check(paramName, paramField, userPassword, userSex, userBirth, userEmail)) 
 			return INPUT;
-		}
-		if (userSex == null || userSex.trim().length() == 0) {
-			this.addFieldError("userSex", "性别不能为空");
-			return INPUT;
-		}
-		if (userBirth == null || userBirth.trim().length() == 0) {
-			this.addFieldError("userBirth", "生日不能为空");
-			return INPUT;
-		}
-		if (userEmail == null || userEmail.trim().length() == 0) {
-			this.addFieldError("userEmail", "邮箱不能为空");
-			return INPUT;
-		}
 		// 编辑用户资料
-		String result = userService.editData(userPassword, userSex, userBirth, userEmail);
+		String result = userService.edit(userPassword, userSex, userBirth, userEmail);
 		if (result.equals(INPUT)) {
 			this.addFieldError("userPassword", "密码输入有误，请重新输入");
 			return INPUT;
@@ -134,27 +92,20 @@ public class UserAction extends BaseAction {
 
 	// 修改用户密码
 	public String changePassword() throws Exception {
-		if (oldUserPassword == null || oldUserPassword.trim().length() == 0) {
-			this.addFieldError("oldUserPassword", "原密码不能为空");
+		// 参数检验
+		String[] paramName = {"原密码","新密码","确认新密码"};
+		String[] paramField = {"userPassword","newPassword","passwordConfirm"};
+		if (check(paramName, paramField, userPassword, newPassword, passwordConfirm)) 
 			return INPUT;
-		}
-		if (newUserPassword == null || newUserPassword.trim().length() == 0) {
-			this.addFieldError("newUserPassword", "新密码不能为空");
-			return INPUT;
-		}
-		if (passwordConfirm == null || passwordConfirm.trim().length() == 0) {
-			this.addFieldError("passwordConfirm", "新密码不能为空");
-			return INPUT;
-		}
-		if (!newUserPassword.equals(passwordConfirm)) {
-			this.addFieldError("newUserPassword", "密码填写不一致");
+		if (!newPassword.equals(passwordConfirm)) {
+			this.addFieldError("newPassword", "密码填写不一致");
 			this.addFieldError("passwordConfirm", "密码填写不一致");
 			return INPUT;
 		}
 		// 修改用户密码
-		String result = userService.changePassword(oldUserPassword, newUserPassword);
+		String result = userService.changePassword(userPassword, newPassword);
 		if (result.equals(INPUT)) {
-			this.addFieldError("oldUserPassword", "原密码输入有误，请重新输入");
+			this.addFieldError("userPassword", "原密码输入有误，请重新输入");
 			return INPUT;
 		}
 		return returnAction(result);
@@ -162,7 +113,7 @@ public class UserAction extends BaseAction {
 
 	// 查看所有用户
 	public String showAll() throws Exception {
-		allUsers = userService.getAllUsers();
+		allUsers = userService.findAll();
 		if (allUsers != null) {
 			this.addActionMessage("查看所有用户成功");
 			return SUCCESS;
@@ -173,7 +124,7 @@ public class UserAction extends BaseAction {
 
 	// 查看用户资料
 	public String show() throws Exception {
-		user = userService.getCurrentUserData();
+		user = userService.findCurrentUser();
 		if (user != null) {
 			userName = user.getUserName();
 			userSex = user.getUserSex() ? "man" : "woman";
@@ -189,22 +140,16 @@ public class UserAction extends BaseAction {
 	// 上传头像
 	public String uploadAvatar() throws Exception {
 		// 参数检验
-		if (avatarsImage == null) {
-			this.addFieldError("avatarsImage", "图片文件不能为空");
+		if (avatarImage == null) {
+			this.addFieldError("avatarImage", "图片文件不能为空");
 			return INPUT;
 		}
-		if (avatarsImageFileName == null
-				|| avatarsImageFileName.trim().length() == 0) {
-			this.addFieldError("avatarsImageFileName", "图片名称不能为空");
+		String[] paramName = {"图片名称","图片类型"};
+		String[] paramField = {"avatarImageFileName","avatarImageContentType"};
+		if (check(paramName, paramField, avatarImageFileName, avatarImageContentType)) 
 			return INPUT;
-		}
-		if (avatarsImageContentType == null
-				|| avatarsImageContentType.trim().length() == 0) {
-			this.addFieldError("avatarsImageContentType", "图片类型不能为空");
-			return INPUT;
-		}
 		// 上传头像
-		String result = userService.uploadAvatars(avatarsImage,avatarsImageFileName, avatarsImageContentType);
+		String result = userService.uploadAvatar(avatarImage,avatarImageFileName, avatarImageContentType);
 		return returnAction(result);
 	}
 	
@@ -230,22 +175,30 @@ public class UserAction extends BaseAction {
 		this.userPassword = userPassword;
 	}
 
-	public String getOldUserPassword() {
-		return oldUserPassword;
+	public File getAvatarImage() {
+		return avatarImage;
 	}
 
-	public void setOldUserPassword(String oldUserPassword) {
-		this.oldUserPassword = oldUserPassword;
+	public void setAvatarImage(File avatarImage) {
+		this.avatarImage = avatarImage;
 	}
 
-	public String getNewUserPassword() {
-		return newUserPassword;
+	public String getAvatarImageFileName() {
+		return avatarImageFileName;
 	}
 
-	public void setNewUserPassword(String newUserPassword) {
-		this.newUserPassword = newUserPassword;
+	public void setAvatarImageFileName(String avatarImageFileName) {
+		this.avatarImageFileName = avatarImageFileName;
 	}
 
+	public String getAvatarImageContentType() {
+		return avatarImageContentType;
+	}
+
+	public void setAvatarImageContentType(String avatarImageContentType) {
+		this.avatarImageContentType = avatarImageContentType;
+	}
+	
 	public String getPasswordConfirm() {
 		return passwordConfirm;
 	}
@@ -302,32 +255,18 @@ public class UserAction extends BaseAction {
 		this.allUsers = allUsers;
 	}
 
-	public File getAvatarsImage() {
-		return avatarsImage;
-	}
-
-	public void setAvatarsImage(File avatarsImage) {
-		this.avatarsImage = avatarsImage;
-	}
-
-	public String getAvatarsImageFileName() {
-		return avatarsImageFileName;
-	}
-
-	public void setAvatarsImageFileName(String avatarsImageFileName) {
-		this.avatarsImageFileName = avatarsImageFileName;
-	}
-
-	public String getAvatarsImageContentType() {
-		return avatarsImageContentType;
-	}
-
-	public void setAvatarsImageContentType(String avatarsImageContentType) {
-		this.avatarsImageContentType = avatarsImageContentType;
-	}
-
 	public void setUser(User user) {
 		this.user = user;
 	}
+
+	public String getNewPassword() {
+		return newPassword;
+	}
+
+	public void setNewPassword(String newPassword) {
+		this.newPassword = newPassword;
+	}
+
+
 	
 }

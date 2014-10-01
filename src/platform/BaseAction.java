@@ -5,6 +5,20 @@ import com.opensymphony.xwork2.ActionSupport;
 @SuppressWarnings("serial")
 public class BaseAction extends ActionSupport {
 	
+	// 参数检验
+	public boolean check(String[] argsName, String[] argsField, String... args) { 		
+		int i = 0;
+		boolean input = false;
+        for (String arg : args) {  
+        	if (arg == null || arg.trim().length() == 0) {
+        		this.addFieldError(argsField[i], argsName[i] + "不能为空");
+        		input = true;
+        	}
+        	i++;
+        }  
+        return input;
+    }  
+
 	// 返回信息
 	public String returnAction(String result){
 		if (result.equals(LOGIN)) {

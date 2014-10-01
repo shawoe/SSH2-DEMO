@@ -3,12 +3,12 @@ package message;
 public abstract class SMSBean {
 
 	//声明属性
-	private Integer smsID;
-    private String smsReader;
-    private String smsContent;
-    private String smsTime;
-    private Boolean smsRead;
-    private String smsSender;
+	private Integer SMSID;
+    private String SMSReader;
+    private String SMSContent;
+    private String SMSTime;
+    private Boolean SMSRead;
+    private String SMSSender;
     
     // 默认构造方法
     public SMSBean() {
@@ -16,56 +16,56 @@ public abstract class SMSBean {
     
     // 带参构造方法
     public SMSBean(Integer userID) {
-        this.setSmsID(userID);
+        this.setSMSID(userID);
     }
     
     // 属性Getter/Setter
-	public Integer getSmsID() {
-		return smsID;
+	public Integer getSMSID() {
+		return SMSID;
 	}
 
-	public String getSmsContent() {
-		return smsContent;
+	public String getSMSContent() {
+		return SMSContent;
 	}
 
-	public void setSmsContent(String smsContent) {
-		this.smsContent = smsContent;
+	public void setSMSContent(String SMSContent) {
+		this.SMSContent = SMSContent;
 	}
 
-	public String getSmsTime() {
-		return smsTime;
+	public String getSMSTime() {
+		return SMSTime;
 	}
 
-	public void setSmsTime(String smsTime) {
-		this.smsTime = smsTime;
+	public void setSMSTime(String SMSTime) {
+		this.SMSTime = SMSTime;
 	}
 
-	public Boolean getSmsRead() {
-		return smsRead;
+	public Boolean getSMSRead() {
+		return SMSRead;
 	}
 
-	public void setSmsRead(Boolean smsRead) {
-		this.smsRead = smsRead;
+	public void setSMSRead(Boolean SMSRead) {
+		this.SMSRead = SMSRead;
 	}
 
-	public String getSmsSender() {
-		return smsSender;
+	public String getSMSSender() {
+		return SMSSender;
 	}
 
-	public void setSmsSender(String smsSender) {
-		this.smsSender = smsSender;
+	public void setSMSSender(String SMSSender) {
+		this.SMSSender = SMSSender;
 	}
 
-	public void setSmsID(Integer smsID) {
-		this.smsID = smsID;
+	public void setSMSID(Integer SMSID) {
+		this.SMSID = SMSID;
 	}
 
-	public void setSmsReader(String smsReader) {
-		this.smsReader = smsReader;
+	public void setSMSReader(String SMSReader) {
+		this.SMSReader = SMSReader;
 	}
 
-	public String getSmsReader() {
-		return smsReader;
+	public String getSMSReader() {
+		return SMSReader;
 	}
 
 

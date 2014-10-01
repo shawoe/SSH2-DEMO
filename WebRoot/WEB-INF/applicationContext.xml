@@ -44,7 +44,7 @@
 		<property name="mappingResources">
 			<list>
 			<value>member/User.hbm.xml</value>
-			<value>member/Friend.hbm.xml</value>
+			<value>member/Fans.hbm.xml</value>
 			<value>message/SMS.hbm.xml</value>
 			<value>monitor/Logger.hbm.xml</value>
 			</list>
@@ -82,19 +82,19 @@
 	
 <!-- 短消息管理模块 -->
 	<!-- 配置短消息Bean组件 -->
-	<bean id="sms" class="message.SMS" />
+	<bean id="SMS" class="message.SMS" />
 	<!-- 配置短消息DAO组件 -->
-	<bean id="smsDAO" class="message.SMSDAO">
+	<bean id="SMSDAO" class="message.SMSDAO">
 		<property name="hibernateTemplate" ref="hibernateTemplate" />
 	</bean>
 	<!-- 配置短消息Service组件 -->
-	<bean id="smsService" class="message.SMSService" scope="prototype">
-		<property name="smsDAO" ref="smsDAO" />
+	<bean id="SMSService" class="message.SMSService" scope="prototype">
+		<property name="SMSDAO" ref="SMSDAO" />
 		<property name="userDAO" ref="userDAO" />
 	</bean>
 	<!-- 配置短消息Action组件 -->
-	<bean id="smsAction" class="message.SMSAction" scope="prototype">
-		<property name="smsService" ref="smsService" />
+	<bean id="SMSAction" class="message.SMSAction" scope="prototype">
+		<property name="SMSService" ref="SMSService" />
 	</bean>
 	
 <!-- 日志管理模块 -->

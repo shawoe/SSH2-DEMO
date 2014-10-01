@@ -2,20 +2,19 @@ package monitor;
 
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
+import platform.BaseService;
 
-import platform.BaseAdvice;
-
-public class LoggerAdvice extends BaseAdvice<Logger>{
+public class LoggerAdvice extends BaseService<Logger>{
 	
 	// …˘√˜ Ù–‘
-	protected LoggerService loggerService;
+	protected ILoggerService loggerService;
 
 	//  Ù–‘Getter/Setter
-	public LoggerService getLoggerService() {
+	public ILoggerService getLoggerService() {
 		return loggerService;
 	}
 	
-	public void setLoggerService(LoggerService loggerService) {
+	public void setLoggerService(ILoggerService loggerService) {
 		this.loggerService = loggerService;
 	}
 	

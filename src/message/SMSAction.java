@@ -2,22 +2,22 @@ package message;
 
 import java.util.List;
 import platform.BaseAction;
-import platform.InterfaceActionMessage;
+import platform.InterfaceAction;
 
 @SuppressWarnings("serial")
-public class SMSAction extends BaseAction implements InterfaceActionMessage {
+public class SMSAction extends BaseAction implements InterfaceAction {
 	
 	// 设置属性
 	protected Integer userID;
-	protected Integer smsID;
-	protected String smsReader;
-	protected String smsContent;
-	protected SMSService smsService;
+	protected Integer SMSID;
+	protected String SMSReader;
+	protected String SMSContent;
+	protected ISMSService SMSService;
 	protected List<SMS> allSMS;
 
-	protected Integer smsPageNow; 	//初始化为1,默认从第一页开始显示
-	protected Integer smsPageSize; 	//每页显示5条记录
-	protected Integer smsPageCount;	//总页数
+	protected Integer SMSPageNow; 	//初始化为1,默认从第一页开始显示
+	protected Integer SMSPageSize; 	//每页显示5条记录
+	protected Integer SMSPageCount;	//总页数
 	
 	protected static Integer pageNow = 1; 	//初始化为1,默认从第一页开始显示
 	protected static Integer pageSize = 5; 	//每页显示5条记录
@@ -29,25 +29,25 @@ public class SMSAction extends BaseAction implements InterfaceActionMessage {
 		if (pageSize==null || pageSize <= 0)
 			pageSize = 5;
 		pageNow = 1;
-		allSMS = smsService.getUserMessage(pageNow, pageSize);
-		pageCount = smsService.getPageCount(pageSize);
-		smsPageNow = pageNow;
-		smsPageSize = pageSize;
-		smsPageCount = pageCount;
+		allSMS = SMSService.findCurrentUser(pageNow, pageSize);
+		pageCount = SMSService.reterPageCount(pageSize);
+		SMSPageNow = pageNow;
+		SMSPageSize = pageSize;
+		SMSPageCount = pageCount;
 		return SUCCESS;	
 	}
 	
 	// 读短消息
 	public String read() throws Exception {
-		if (smsPageSize==null || smsPageSize <= 0)
-			smsPageSize = 5;
-		if (smsPageNow==null || smsPageNow <= 0)
-			smsPageNow = 1;
-		pageNow = smsPageNow;
-		pageSize = smsPageSize;
-		allSMS = smsService.getUserMessage(pageNow, pageSize);
-		pageCount = smsService.getPageCount(pageSize);
-		smsPageCount = pageCount;
+		if (SMSPageSize==null || SMSPageSize <= 0)
+			SMSPageSize = 5;
+		if (SMSPageNow==null || SMSPageNow <= 0)
+			SMSPageNow = 1;
+		pageNow = SMSPageNow;
+		pageSize = SMSPageSize;
+		allSMS = SMSService.findCurrentUser(pageNow, pageSize);
+		pageCount = SMSService.reterPageCount(pageSize);
+		SMSPageCount = pageCount;
 		return SUCCESS;	
 	}
 	
@@ -58,13 +58,13 @@ public class SMSAction extends BaseAction implements InterfaceActionMessage {
 		if (pageNow==null || pageNow <= 0)
 			pageNow = 1;
 		if (pageCount==null || pageCount <= 0)
-			pageCount = smsService.getPageCount(pageSize);
+			pageCount = SMSService.reterPageCount(pageSize);
 		if (pageNow < pageCount) 
 			pageNow++;
-		allSMS = smsService.getUserMessage(pageNow, pageSize);
-		smsPageNow = pageNow;
-		smsPageSize = pageSize;
-		smsPageCount = pageCount;
+		allSMS = SMSService.findCurrentUser(pageNow, pageSize);
+		SMSPageNow = pageNow;
+		SMSPageSize = pageSize;
+		SMSPageCount = pageCount;
 		return SUCCESS;	
 	}
 	
@@ -75,13 +75,13 @@ public class SMSAction extends BaseAction implements InterfaceActionMessage {
 		if (pageNow==null || pageNow <= 0)
 			pageNow = 1;
 		if (pageCount==null || pageCount <= 0)
-			pageCount = smsService.getPageCount(pageSize);
+			pageCount = SMSService.reterPageCount(pageSize);
 		if (pageNow > 1) 
 			pageNow--;
-		allSMS = smsService.getUserMessage(pageNow, pageSize);
-		smsPageNow = pageNow;
-		smsPageSize = pageSize;
-		smsPageCount = pageCount;
+		allSMS = SMSService.findCurrentUser(pageNow, pageSize);
+		SMSPageNow = pageNow;
+		SMSPageSize = pageSize;
+		SMSPageCount = pageCount;
 		return SUCCESS;	
 	}
 	
@@ -92,43 +92,43 @@ public class SMSAction extends BaseAction implements InterfaceActionMessage {
 		if (pageNow==null || pageNow <= 0)
 			pageNow = 1;
 		if (pageCount==null || pageCount <= 0)
-			pageCount = smsService.getPageCount(pageSize);
+			pageCount = SMSService.reterPageCount(pageSize);
 		if (pageCount > 1) 
 			pageNow = pageCount;
-		allSMS = smsService.getUserMessage(pageNow, pageSize);
-		smsPageNow = pageNow;
-		smsPageSize = pageSize;
-		smsPageCount = pageCount;
+		allSMS = SMSService.findCurrentUser(pageNow, pageSize);
+		SMSPageNow = pageNow;
+		SMSPageSize = pageSize;
+		SMSPageCount = pageCount;
 		return SUCCESS;	
 	}
 	
 	// 发送短消息
 	public String send() throws Exception {
 		// 参数检验
-		if (smsReader==null || smsReader.trim().length()==0) {
-			this.addFieldError("smsReader", "收信人不能为空");
+		if (SMSReader==null || SMSReader.trim().length()==0) {
+			this.addFieldError("SMSReader", "收信人不能为空");
 			return INPUT;
 		}
-		if (smsContent==null || smsContent.trim().length()==0) { 
-			this.addFieldError("smsContent", "短信内容不能为空");
+		if (SMSContent==null || SMSContent.trim().length()==0) { 
+			this.addFieldError("SMSContent", "短信内容不能为空");
 			return INPUT;
 		}
 		// 发送短消息
-		String result = smsService.send(smsReader,smsContent);
+		String result = SMSService.send(SMSReader,SMSContent);
 		return returnAction(result);
 	}
 
 	// 删除短消息
 	public String delete() throws Exception {
 		// 参数检验
-		if (smsID==null || smsID <= 0) {
-			this.addFieldError("smsID", "请选择需要删除的短消息");
+		if (SMSID==null || SMSID <= 0) {
+			this.addFieldError("SMSID", "请选择需要删除的短消息");
 			return INPUT;
 		}
 		// 删除短消息
-		String result = smsService.delete(smsID);
+		String result = SMSService.remove(SMSID);
 		if (result.equals(INPUT)) {
-			this.addFieldError("smsID", "请选择您要删除的短消息");
+			this.addFieldError("SMSID", "请选择您要删除的短消息");
 			return INPUT;
 		}
 		return returnAction(result);
@@ -137,22 +137,22 @@ public class SMSAction extends BaseAction implements InterfaceActionMessage {
 	// 修改短消息
 	public String edit() throws Exception {
 		// 参数检验
-		if (smsID==null || smsID <= 0) {
-			this.addFieldError("smsID", "请选择需要修改的短消息");
+		if (SMSID==null || SMSID <= 0) {
+			this.addFieldError("SMSID", "请选择需要修改的短消息");
 			return INPUT;
 		}
-		if (smsReader==null || smsReader.trim().length()==0) {
-			this.addFieldError("smsReader", "收信人不能为空");
+		if (SMSReader==null || SMSReader.trim().length()==0) {
+			this.addFieldError("SMSReader", "收信人不能为空");
 			return INPUT;
 		}
-		if (smsContent==null || smsContent.trim().length()==0) { 
-			this.addFieldError("smsContent", "短信内容不能为空");
+		if (SMSContent==null || SMSContent.trim().length()==0) { 
+			this.addFieldError("SMSContent", "短信内容不能为空");
 			return INPUT;
 		}
 		// 修改短消息
-		String result = smsService.edit(smsID,smsReader,smsContent);
+		String result = SMSService.edit(SMSID,SMSReader,SMSContent);
 		if (result.equals(INPUT)) {
-			this.addFieldError("smsID", "请选择您要修改的短消息");
+			this.addFieldError("SMSID", "请选择您要修改的短消息");
 			return INPUT;
 		}
 		return returnAction(result);
@@ -165,36 +165,36 @@ public class SMSAction extends BaseAction implements InterfaceActionMessage {
 		return userID;
 	}
 
-	public Integer getSmsID() {
-		return smsID;
+	public Integer getSMSID() {
+		return SMSID;
 	}
 
-	public void setSmsID(Integer smsID) {
-		this.smsID = smsID;
+	public void setSMSID(Integer SMSID) {
+		this.SMSID = SMSID;
 	}
 
-	public String getSmsReader() {
-		return smsReader;
+	public String getSMSReader() {
+		return SMSReader;
 	}
 
-	public void setSmsReader(String smsReader) {
-		this.smsReader = smsReader;
+	public void setSMSReader(String SMSReader) {
+		this.SMSReader = SMSReader;
 	}
 
-	public String getSmsContent() {
-		return smsContent;
+	public String getSMSContent() {
+		return SMSContent;
 	}
 
-	public void setSmsContent(String smsContent) {
-		this.smsContent = smsContent;
+	public void setSMSContent(String SMSContent) {
+		this.SMSContent = SMSContent;
 	}
 
-	public SMSService getSmsService() {
-		return smsService;
+	public ISMSService getSMSService() {
+		return SMSService;
 	}
 
-	public void setSmsService(SMSService smsService) {
-		this.smsService = smsService;
+	public void setSMSService(ISMSService SMSService) {
+		this.SMSService = SMSService;
 	}
 
 	public List<SMS> getAllSMS() {
@@ -205,28 +205,28 @@ public class SMSAction extends BaseAction implements InterfaceActionMessage {
 		this.allSMS = allSMS;
 	}
 
-	public Integer getSmsPageNow() {
-		return smsPageNow;
+	public Integer getSMSPageNow() {
+		return SMSPageNow;
 	}
 
-	public void setSmsPageNow(Integer smsPageNow) {
-		this.smsPageNow = smsPageNow;
+	public void setSMSPageNow(Integer SMSPageNow) {
+		this.SMSPageNow = SMSPageNow;
 	}
 
-	public Integer getSmsPageSize() {
-		return smsPageSize;
+	public Integer getSMSPageSize() {
+		return SMSPageSize;
 	}
 
-	public void setSmsPageSize(Integer smsPageSize) {
-		this.smsPageSize = smsPageSize;
+	public void setSMSPageSize(Integer SMSPageSize) {
+		this.SMSPageSize = SMSPageSize;
 	}
 
-	public Integer getSmsPageCount() {
-		return smsPageCount;
+	public Integer getSMSPageCount() {
+		return SMSPageCount;
 	}
 
-	public void setSmsPageCount(Integer smsPageCount) {
-		this.smsPageCount = smsPageCount;
+	public void setSMSPageCount(Integer SMSPageCount) {
+		this.SMSPageCount = SMSPageCount;
 	}
 
 	public static Integer getPageNow() {

@@ -1,27 +1,21 @@
 package member;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.List;
-import org.apache.commons.io.FileUtils;
-import org.apache.struts2.ServletActionContext;
 import platform.BaseService;
 
-public class UserService extends BaseService<User> {
-
-	// 依赖注入属性
-	protected UserDAO userDAO;
+public class UserService extends BaseService<User> implements IUserService {
 	
 	// 用户登录
 	public String login(String userName, String userPassword) {
 		// 获取用户
-		User user = userDAO.findUser(userName);
+		User user = userDAO.selectName(userName);
 		if (user == null)
 			return NONE;
 		if (!userPassword.equals(user.getUserPassword()))
 			return INPUT;
 		// 用户登录
-		if (!this.setCurrentUser(userName))
+		if (!this.recordCurrentUser(userName))
 			return ERROR;
 		// 存至数据库
 		user.setUserOnline(true);
@@ -32,10 +26,10 @@ public class UserService extends BaseService<User> {
 
 	// 执行退出登录
 	public String logout() {
-		// 获取当前用户
+		// 验证用户登录
 		if (currentUser == null || currentUser.trim().length() == 0)
 			return LOGIN;
-		User user = userDAO.findUser(currentUser);
+		User user = userDAO.selectName(currentUser);
 		if (user == null)
 			return NONE;
 		// 执行退出登录
@@ -51,7 +45,7 @@ public class UserService extends BaseService<User> {
 	// 注册新用户
 	public String register(String userName, String userPassword, String userSex, String userBirth, String userEmail) {
 		// 获取用户
-		User user = userDAO.findUser(userName);
+		User user = userDAO.selectName(userName);
 		if (user != null)
 			return INPUT;
 		// 注册新用户
@@ -70,8 +64,8 @@ public class UserService extends BaseService<User> {
 	}
 
 	// 删除指定用户
-	public String delete(Integer userID) {
-		if (userDAO.find(userID) == null)
+	public String remove(Integer userID) {
+		if (userDAO.select(userID) == null)
 			return INPUT;
 		if (userDAO.delete(userID))
 			return SUCCESS;
@@ -79,42 +73,42 @@ public class UserService extends BaseService<User> {
 	}
 
 	// 删除用户
-	public String deleteUserByName(String userName) {
-		if (userDAO.findUser(userName) == null)
+	public String removeName(String userName) {
+		if (userDAO.selectName(userName) == null)
 			return INPUT;
-		if (userDAO.deleteUserData(userName))
+		if (userDAO.deleteName(userName))
 			return SUCCESS;
 		return ERROR;
 	}
 
 	// 查询指定用户
-	public User get(Integer userID) {
-		return userDAO.find(userID);
+	public User find(Integer userID) {
+		return userDAO.select(userID);
 	}
 
 	// 查询用户
-	public User getUserByName(String userName) {
-		return userDAO.findUser(userName);
+	public User findName(String userName) {
+		return userDAO.selectName(userName);
 	}
 
 	// 获取当前用户资料
-	public User getCurrentUserData() {
+	public User findCurrentUser() {
 		if (currentUser != null || currentUser.trim().length() > 0) 
-			return userDAO.findUser(currentUser);
+			return userDAO.selectName(currentUser);
 		return null;
 	}
 
 	// 查询所有用户
-	public List<User> getAllUsers() {
+	public List<User> findAll() {
 		return userDAO.findAll();
 	}
 
 	// 编辑用户
-	public String editData(String userPassword, String userSex, String userBirth, String userEmail) {
-		// 获取当前用户
+	public String edit(String userPassword, String userSex, String userBirth, String userEmail) {
+		// 验证用户登录
 		if (currentUser == null || currentUser.trim().length() == 0)
 			return LOGIN;
-		User user = userDAO.findUser(currentUser);
+		User user = userDAO.selectName(currentUser);
 		if (user == null)
 			return NONE;
 		if (!user.getUserPassword().equals(userPassword)) 
@@ -131,10 +125,10 @@ public class UserService extends BaseService<User> {
 
 	// 修改用户密码
 	public String changePassword(String oldUserPassword, String newUserPassword) {
-		// 获取当前用户
+		// 验证用户登录
 		if (currentUser == null || currentUser.trim().length() == 0)
 			return LOGIN;
-		User user = userDAO.findUser(currentUser);
+		User user = userDAO.selectName(currentUser);
 		if (user == null)
 			return NONE;
 		if (!user.getUserPassword().equals(oldUserPassword))
@@ -147,33 +141,20 @@ public class UserService extends BaseService<User> {
 	}
 
 	// 上传头像
-	public String uploadAvatars(File avatarsImage, String avatarsImageFileName,String avatarsImageContentType) {
-		// 获取路径
-		String realPath = ServletActionContext.getServletContext().getRealPath("/avatar");
-		// 获取图片类型
-		String imageType = avatarsImageFileName.substring(avatarsImageFileName.lastIndexOf(".") + 1, avatarsImageFileName.length());
-		// 获取当前用户
+	public String uploadAvatar(File avatarImage, String avatarImageFileName, String avatarImageContentType) {
+		// 验证用户登录
 		if (currentUser == null || currentUser.trim().length() == 0)
 			return LOGIN;
 		// 保存图片
-		File saveFile = new File(new File(realPath), currentUser + "."+ imageType);
-		if (!saveFile.getParentFile().exists())
-			saveFile.getParentFile().mkdirs();
-		try {
-			FileUtils.copyFile(avatarsImage, saveFile);
+		String avatarImageFolder = "avatar";
+		String renameAvatarImage = currentUser;
+		boolean result = uploadImage(avatarImage, avatarImageFileName, avatarImageContentType, avatarImageFolder, renameAvatarImage);
+		// 返回结果
+		if (result) {
 			return SUCCESS;
-		} catch (IOException e) {
-			return ERROR;
 		}
+		return ERROR;
 	}
 
-	// 默认属性Getter/Setter
-	public UserDAO getUserDAO() {
-		return userDAO;
-	}
-
-	public void setUserDAO(UserDAO userDAO) {
-		this.userDAO = userDAO;
-	}
 	
 }

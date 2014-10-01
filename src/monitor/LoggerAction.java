@@ -1,22 +1,20 @@
 package monitor;
 
 import java.util.List;
-
 import platform.BaseAction;
-import platform.InterfaceActionMessage;
 
 @SuppressWarnings("serial")
-public class LoggerAction extends BaseAction implements InterfaceActionMessage{
+public class LoggerAction extends BaseAction implements ILoggerAction {
 
 	// 设置属性
 	protected Integer userID;
 
 	protected Integer loggerID;
-	protected String loggerUser;
+	protected String loggerOperator;
 	protected String loggerAction;
 	protected String loggerSuccess;
 	protected String loggerError;
-	protected LoggerService loggerService;
+	protected ILoggerService loggerService;
 	protected List<Logger> allLogger;
 
 	protected Integer loggerPageNow; 		// 初始化为1,默认从第一页开始显示
@@ -33,8 +31,8 @@ public class LoggerAction extends BaseAction implements InterfaceActionMessage{
 		if (pageSize==null || pageSize <= 0)
 			pageSize = 5;
 		pageNow = 1;
-		allLogger = loggerService.getAll(pageNow, pageSize);
-		pageCount = loggerService.getPageCount(pageSize);
+		allLogger = loggerService.findAll(pageNow, pageSize);
+		pageCount = loggerService.count(pageSize);
 		loggerPageNow = pageNow;
 		loggerPageSize = pageSize;
 		loggerPageCount = pageCount;
@@ -49,8 +47,8 @@ public class LoggerAction extends BaseAction implements InterfaceActionMessage{
 			loggerPageNow = 1;
 		pageNow = loggerPageNow;
 		pageSize = loggerPageSize;
-		allLogger = loggerService.getAll(pageNow, pageSize);
-		pageCount = loggerService.getPageCount(pageSize);
+		allLogger = loggerService.findAll(pageNow, pageSize);
+		pageCount = loggerService.count(pageSize);
 		loggerPageCount = pageCount;
 		return SUCCESS;	
 	}
@@ -62,10 +60,10 @@ public class LoggerAction extends BaseAction implements InterfaceActionMessage{
 		if (pageNow==null || pageNow <= 0)
 			pageNow = 1;
 		if (pageCount==null || pageCount <= 0)
-			pageCount = loggerService.getPageCount(pageSize);
+			pageCount = loggerService.count(pageSize);
 		if (pageNow < pageCount) 
 			pageNow++;
-		allLogger = loggerService.getAll(pageNow, pageSize);
+		allLogger = loggerService.findAll(pageNow, pageSize);
 		loggerPageNow = pageNow;
 		loggerPageSize = pageSize;
 		loggerPageCount = pageCount;
@@ -79,10 +77,10 @@ public class LoggerAction extends BaseAction implements InterfaceActionMessage{
 		if (pageNow==null || pageNow <= 0)
 			pageNow = 1;
 		if (pageCount==null || pageCount <= 0)
-			pageCount = loggerService.getPageCount(pageSize);
+			pageCount = loggerService.count(pageSize);
 		if (pageNow > 1) 
 			pageNow--;
-		allLogger = loggerService.getAll(pageNow, pageSize);
+		allLogger = loggerService.findAll(pageNow, pageSize);
 		loggerPageNow = pageNow;
 		loggerPageSize = pageSize;
 		loggerPageCount = pageCount;
@@ -96,31 +94,15 @@ public class LoggerAction extends BaseAction implements InterfaceActionMessage{
 		if (pageNow==null || pageNow <= 0)
 			pageNow = 1;
 		if (pageCount==null || pageCount <= 0)
-			pageCount = loggerService.getPageCount(pageSize);
+			pageCount = loggerService.count(pageSize);
 		if (pageCount > 1) 
 			pageNow = pageCount;
-		allLogger = loggerService.getAll(pageNow, pageSize);
+		allLogger = loggerService.findAll(pageNow, pageSize);
 		loggerPageNow = pageNow;
 		loggerPageSize = pageSize;
 		loggerPageCount = pageCount;
 		return SUCCESS;	
-	}
-
-	public String delete() throws Exception {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public String edit() throws Exception {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public String send() throws Exception {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
+	}	
 
 	
 	// 默认属性Getter/Setter
@@ -134,14 +116,6 @@ public class LoggerAction extends BaseAction implements InterfaceActionMessage{
 
 	public void setLoggerID(Integer loggerID) {
 		this.loggerID = loggerID;
-	}
-
-	public String getLoggerUser() {
-		return loggerUser;
-	}
-
-	public void setLoggerUser(String loggerUser) {
-		this.loggerUser = loggerUser;
 	}
 
 	public String getLoggerAction() {
@@ -168,11 +142,11 @@ public class LoggerAction extends BaseAction implements InterfaceActionMessage{
 		this.loggerError = loggerError;
 	}
 
-	public LoggerService getLoggerService() {
+	public ILoggerService getLoggerService() {
 		return loggerService;
 	}
 
-	public void setLoggerService(LoggerService loggerService) {
+	public void setLoggerService(ILoggerService loggerService) {
 		this.loggerService = loggerService;
 	}
 
@@ -234,6 +208,14 @@ public class LoggerAction extends BaseAction implements InterfaceActionMessage{
 
 	public void setUserID(Integer userID) {
 		this.userID = userID;
+	}
+
+	public String getLoggerOperator() {
+		return loggerOperator;
+	}
+
+	public void setLoggerOperator(String loggerOperator) {
+		this.loggerOperator = loggerOperator;
 	}
 
 		

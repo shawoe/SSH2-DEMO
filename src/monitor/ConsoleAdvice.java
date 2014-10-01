@@ -1,9 +1,9 @@
 package monitor;
 
 import org.aspectj.lang.JoinPoint;
-import platform.BaseAdvice;
+import platform.BaseService;
 
-public class ConsoleAdvice extends BaseAdvice<Logger> {
+public class ConsoleAdvice extends BaseService<Logger> {
 	
 	// ÓÃ»§µÇÂ¼
 	public void login(JoinPoint thisJoinPoint) {

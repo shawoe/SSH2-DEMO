@@ -31,6 +31,7 @@
         	<interceptor-ref name="token" />
         	<result name="invalid.token" type="redirect">/error/repeat.jsp</result>
 			<result name="error" type="redirect">/error/error.jsp</result>
+			<result name="login" type="dispatcher">/user/login.jsp</result>
 			<result name="none" type="dispatcher">/user/login.jsp</result>
 			<result name="input" type="dispatcher">/user/login.jsp</result>
 			<result name="success" type="redirect">/user/welcome.jsp</result>
@@ -47,15 +48,21 @@
         	<interceptor-ref name="token" />
         	<result name="invalid.token" type="redirect">/error/repeat.jsp</result>
 			<result name="error" type="redirect">/error/error.jsp</result>
+			<result name="login" type="dispatcher">/user/login.jsp</result>
+			<result name="none" type="dispatcher">/user/login.jsp</result>
 			<result name="input" type="dispatcher">/user/register.jsp</result>
 			<result name="success" type="redirect">/user/login.jsp</result>
 		</action>
 		<action name="showAllUsers" class="member.UserAction" method="showAll">
+			<result name="error" type="redirect">/error/error.jsp</result>
+			<result name="login" type="dispatcher">/user/login.jsp</result>
 			<result name="none" type="redirect">/user/show.jsp</result>
 			<result name="success" type="dispatcher">/user/show.jsp</result>
 		</action>
 		<action name="showUser" class="member.UserAction" method="show">
-			<result name="login" type="redirect">/user/login.jsp</result>
+			<result name="error" type="redirect">/error/error.jsp</result>
+			<result name="login" type="dispatcher">/user/login.jsp</result>
+			<result name="none" type="redirect">/user/show.jsp</result>
 			<result name="success" type="dispatcher">/user/edit.jsp</result>
 		</action>
 		<action name="editUser" class="member.UserAction" method="edit">
@@ -87,28 +94,40 @@
         	<result name="invalid.token" type="redirect">/error/repeat.jsp</result>
 			<result name="error" type="redirect">/error/error.jsp</result>
 			<result name="login" type="redirect">/user/login.jsp</result>
+			<result name="none" type="redirect">/user/login.jsp</result>
+			<result name="input" type="dispatcher">/user/upload.jsp</result>
             <result name="success" type="redirect">/user/welcome.jsp</result>
         </action>	
 		
 	<!-- Message.SMSAction -->
 		<action name="readSMS" class="message.SMSAction" method="read">
-			<result name="error" type="redirect">/sms/error.jsp</result>
+			<result name="error" type="redirect">/error/error.jsp</result>
+			<result name="login" type="redirect">/user/login.jsp</result>
+			<result name="none" type="redirect">/user/login.jsp</result>
 			<result name="success" type="dispatcher">/sms/read.jsp</result>
 		</action>
 		<action name="readFirstSMS" class="message.SMSAction" method="readFirst">
-			<result name="error" type="redirect">/sms/error.jsp</result>
+			<result name="error" type="redirect">/error/error.jsp</result>
+			<result name="login" type="redirect">/user/login.jsp</result>
+			<result name="none" type="redirect">/user/login.jsp</result>
 			<result name="success" type="dispatcher">/sms/read.jsp</result>
 		</action>
 		<action name="readNextSMS" class="message.SMSAction" method="readNext">
-			<result name="error" type="redirect">/sms/error.jsp</result>
+			<result name="error" type="redirect">/error/error.jsp</result>
+			<result name="login" type="redirect">/user/login.jsp</result>
+			<result name="none" type="redirect">/user/login.jsp</result>
 			<result name="success" type="dispatcher">/sms/read.jsp</result>
 		</action>
 		<action name="readLastSMS" class="message.SMSAction" method="readLast">
-			<result name="error" type="redirect">/sms/error.jsp</result>
+			<result name="error" type="redirect">/error/error.jsp</result>
+			<result name="login" type="redirect">/user/login.jsp</result>
+			<result name="none" type="redirect">/user/login.jsp</result>
 			<result name="success" type="dispatcher">/sms/read.jsp</result>
 		</action>
 		<action name="readEndSMS" class="message.SMSAction" method="readEnd">
-			<result name="error" type="redirect">/sms/error.jsp</result>
+			<result name="error" type="redirect">/error/error.jsp</result>
+			<result name="login" type="redirect">/user/login.jsp</result>
+			<result name="none" type="redirect">/user/login.jsp</result>
 			<result name="success" type="dispatcher">/sms/read.jsp</result>
 		</action>
 		<action name="sendSMS" class="message.SMSAction" method="send">
@@ -126,22 +145,32 @@
 	<!-- Monitor.LoggerAction -->
 		<action name="readLogger" class="monitor.LoggerAction" method="read">
 			<result name="error" type="redirect">/logger/error.jsp</result>
+			<result name="login" type="redirect">/user/login.jsp</result>
+			<result name="none" type="redirect">/user/login.jsp</result>
 			<result name="success" type="dispatcher">/logger/read.jsp</result>
 		</action>
 		<action name="readFirstLogger" class="monitor.LoggerAction" method="readFirst">
 			<result name="error" type="redirect">/logger/error.jsp</result>
+			<result name="login" type="redirect">/user/login.jsp</result>
+			<result name="none" type="redirect">/user/login.jsp</result>
 			<result name="success" type="dispatcher">/logger/read.jsp</result>
 		</action>
 		<action name="readNextLogger" class="monitor.LoggerAction" method="readNext">
 			<result name="error" type="redirect">/logger/error.jsp</result>
+			<result name="login" type="redirect">/user/login.jsp</result>
+			<result name="none" type="redirect">/user/login.jsp</result>
 			<result name="success" type="dispatcher">/logger/read.jsp</result>
 		</action>
 		<action name="readLastLogger" class="monitor.LoggerAction" method="readLast">
 			<result name="error" type="redirect">/logger/error.jsp</result>
+			<result name="login" type="redirect">/user/login.jsp</result>
+			<result name="none" type="redirect">/user/login.jsp</result>
 			<result name="success" type="dispatcher">/logger/read.jsp</result>
 		</action>
 		<action name="readEndLogger" class="monitor.LoggerAction" method="readEnd">
 			<result name="error" type="redirect">/logger/error.jsp</result>
+			<result name="login" type="redirect">/user/login.jsp</result>
+			<result name="none" type="redirect">/user/login.jsp</result>
 			<result name="success" type="dispatcher">/logger/read.jsp</result>
 		</action>
 		

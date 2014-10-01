@@ -1,114 +1,99 @@
 package message;
 
 import java.util.List;
-import member.UserDAO;
 import platform.BaseService;
-import platform.InterfaceServiceMessage;
 
-public class SMSService extends BaseService<SMS> implements InterfaceServiceMessage<SMS> {
+public class SMSService extends BaseService<SMS> implements ISMSService {
 	
 	// 依赖注入属性
-	protected SMSDAO smsDAO;
-	protected UserDAO userDAO;
+	protected ISMSDAO SMSDAO;
 
 	// 发送短消息
-	public String send(String smsReader, String smsContent) {
-		// 获取当前用户
+	public String send(String SMSReader, String SMSContent) {
+		// 验证用户登录
 		if (currentUser == null || currentUser.trim().length() == 0)
 			return LOGIN;
 		// 填写信息
-		SMS sms = new SMS();
-		sms.setSmsSender(currentUser);
-		sms.setSmsReader(smsReader);
-		sms.setSmsContent(smsContent);
-		sms.setSmsRead(false);
-		sms.setSmsTime(getCurrentDate());
+		SMS SMS = new SMS();
+		SMS.setSMSSender(currentUser);
+		SMS.setSMSReader(SMSReader);
+		SMS.setSMSContent(SMSContent);
+		SMS.setSMSRead(false);
+		SMS.setSMSTime(referCurrentDate());
 		// 存至数据库
-		if(smsDAO.insert(sms))
+		if(SMSDAO.insert(SMS))
 			return SUCCESS;
 		return ERROR;
 	}
 
 	// 删除指定短消息
-	public String delete(Integer smsID) {
-		// 获取当前用户
+	public String remove(Integer SMSID) {
+		// 验证用户登录
 		if (currentUser == null || currentUser.trim().length() == 0)
 			return LOGIN;
-		SMS sms = smsDAO.find(smsID);
-		if (sms == null) 
+		SMS SMS = SMSDAO.select(SMSID);
+		if (SMS == null) 
 			return INPUT;
-		if (!sms.getSmsSender().equals(currentUser))
+		if (!SMS.getSMSSender().equals(currentUser))
 			return NONE;
-		if (smsDAO.delete(smsID))
+		if (SMSDAO.delete(SMSID))
 			return SUCCESS;
 		return ERROR;
 	}
 
 	// 查询用户短消息
-	public List<SMS> getUserMessage(Integer pageNow, Integer pageSize) {
+	public List<SMS> findCurrentUser(Integer pageNow, Integer pageSize) {
 		if (currentUser!=null && currentUser.trim().length() > 0) {
-			List<SMS> smsList = smsDAO.findUserData(currentUser);
-			List<SMS> smsPaging = this.paging(smsList, pageNow, pageSize);
-			return smsPaging;
+			List<SMS> SMSList = SMSDAO.selectReader(currentUser);
+			List<SMS> SMSPaging = this.paging(SMSList, pageNow, pageSize);
+			return SMSPaging;
 		}
 		return null;
 	}
 	
 	// 查询分页总数
-	public Integer getPageCount(Integer pageSize) {
-		List<SMS> smsList = smsDAO.findUserData(currentUser);
-		Integer pageCount = this.count(smsList,pageSize);
+	public Integer reterPageCount(Integer pageSize) {
+		List<SMS> SMSList = SMSDAO.selectReader(currentUser);
+		Integer pageCount = this.count(SMSList,pageSize);
 		return pageCount;
 	}
 
 	// 查询指定短消息
-	public SMS get(Integer smsID) {
-		SMS sms = smsDAO.find(smsID);
-		return sms;
+	public SMS find(Integer SMSID) {
+		SMS SMS = SMSDAO.select(SMSID);
+		return SMS;
 	}
 
 	// 编辑短消息
-	public String edit(Integer smsID, String smsReader, String smsContent) {
-		// 获取当前用户
+	public String edit(Integer SMSID, String SMSReader, String SMSContent) {
+		// 验证用户登录
 		if (currentUser == null || currentUser.trim().length() == 0)
 			return LOGIN;
 		// 获取短消息
-		SMS sms = smsDAO.find(smsID);
-		if (sms == null) 
+		SMS SMS = SMSDAO.select(SMSID);
+		if (SMS == null) 
 			return INPUT;
-		if (!sms.getSmsSender().equals(currentUser)) 
+		if (!SMS.getSMSSender().equals(currentUser)) 
 			return NONE;
 		// 编辑短消息
-		sms.setSmsReader(smsReader);
-		sms.setSmsContent(smsContent);
-		sms.setSmsRead(false);
-		sms.setSmsTime(getCurrentDate());
+		SMS.setSMSReader(SMSReader);
+		SMS.setSMSContent(SMSContent);
+		SMS.setSMSRead(false);
+		SMS.setSMSTime(referCurrentDate());
 		// 存至数据库
-		if(smsDAO.update(sms))
+		if(SMSDAO.update(SMS))
 			return SUCCESS;
 		return ERROR;
 	}
 
-	public List<SMS> getAll(Integer pageNow, Integer pageSize) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	// 默认属性Getter/Setter
-	public SMSDAO getSmsDAO() {
-		return smsDAO;
+	public ISMSDAO getSMSDAO() {
+		return SMSDAO;
 	}
 
-	public void setSmsDAO(SMSDAO smsDAO) {
-		this.smsDAO = smsDAO;
+	public void setSMSDAO(ISMSDAO sMSDAO) {
+		SMSDAO = sMSDAO;
 	}
-
-	public UserDAO getUserDAO() {
-		return userDAO;
-	}
-
-	public void setUserDAO(UserDAO userDAO) {
-		this.userDAO = userDAO;
-	}
-
+	
 }

@@ -2,58 +2,59 @@ package message;
 
 import java.util.List;
 import platform.BaseDAO;
-import platform.InterfaceDAOCommon;
 
-public class SMSDAO extends BaseDAO<SMS> implements InterfaceDAOCommon<SMS> {
+public class SMSDAO extends BaseDAO<SMS> implements ISMSDAO  {
 	
 	// 查找信息
-	@SuppressWarnings("unchecked")
-	public List<SMS> findUserData(String userName) {
-		List<SMS> smsList =  this.getHibernateTemplate().find("from SMS sms where sms.smsReader=?",userName);
-		return smsList;
+	public List<SMS> selectReader(String SMSReader) {
+		SMS SMSQuery = new SMS();
+		SMSQuery.setSMSReader(SMSReader);
+		List<SMS> SMSList = select(SMSQuery);
+		return SMSList;
 	}     
 
-	public SMS find(Integer smsID) {
-		SMS sms = (SMS) this.getHibernateTemplate().get(SMS.class, new Integer(smsID));
-		return sms;
+	public SMS select(Integer SMSID) {
+		SMS SMSQuery = new SMS();
+		SMSQuery.setSMSID(SMSID);
+		SMS SMS = select(SMSQuery).get(0);		
+		return SMS;
 	}
 
-	// 增加信息
-	public boolean insert(SMS sms) {
-		if (sms != null) {
-			this.getHibernateTemplate().save(sms);
-			return true;
-		}
-		return false;
+	public List<SMS> selectAll() {
+		List<SMS> SMSList = selectAll("SMS");
+		return SMSList;
 	}
 
-	// 更新信息
-	public boolean update(SMS sms) {
-		if (sms != null) {		
-			this.getHibernateTemplate().update(sms);
-			return true;
-		}
-		return false;
+	public List<SMS> selectSender(String SMSSender) {
+		SMS SMSQuery = new SMS();
+		SMSQuery.setSMSSender(SMSSender);
+		List<SMS> SMSList = select(SMSQuery);
+		return SMSList;
 	}
 
 	// 删除信息
-	public boolean delete(Integer smsID) {
-		SMS sms = getHibernateTemplate().load(SMS.class, new Integer(smsID));
-		if (sms != null) {		
-			getHibernateTemplate().delete(sms);
+	public boolean delete(Integer SMSID) {
+		SMS SMSQuery = new SMS();
+		SMSQuery.setSMSID(SMSID);
+		if (delete(SMSQuery))
 			return true;
-		}
 		return false;
 	}
 
-	public boolean deleteUserData(String name) {
-		// TODO Auto-generated method stub
+	public boolean deleteReader(String SMSReader) {
+		SMS SMSQuery = new SMS();
+		SMSQuery.setSMSReader(SMSReader);
+		if (delete(SMSQuery))
+			return true;
 		return false;
 	}
 
-	public List<SMS> findAll() {
-		// TODO Auto-generated method stub
-		return null;
+	public boolean deleteSender(String SMSSender) {
+		SMS SMSQuery = new SMS();
+		SMSQuery.setSMSSender(SMSSender);
+		if (delete(SMSQuery))
+			return true;
+		return false;
 	}
 
 }

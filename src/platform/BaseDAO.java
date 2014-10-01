@@ -3,26 +3,20 @@ package platform;
 import java.util.List;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
-public abstract class BaseDAO<Template> extends HibernateDaoSupport implements InterfaceDAOCommon<Template> {
+public abstract class BaseDAO<Template> extends HibernateDaoSupport implements InterfaceDAO<Template> {
 
 	// 查找数据项
 	@SuppressWarnings("unchecked")
-	public List<Template> findAll(Class<Template> clazz) {
-		String HQL = "from" + clazz.getName() + "";
+	public List<Template> selectAll(String clazz) {
+		String HQL = "from " + clazz + "";
 		List<Template> list = (List<Template>) this.getHibernateTemplate().find(HQL);
 		return list;
 	}
 	
 	@SuppressWarnings("unchecked")
-	public List<Template> findData(Template object) {
+	public List<Template> select(Template object) {
 		List<Template> list = (List<Template>) this.getHibernateTemplate().findByExample(object);
 		return list;
-	}
-	
-	@SuppressWarnings("unchecked")
-	public Template find(Class<Template> clazz, Integer id) {
-		Template object = (Template) this.getHibernateTemplate().get(clazz.getClass(), new Integer(id));
-		return object;
 	}
 
 	// 增加数据项
@@ -45,17 +39,7 @@ public abstract class BaseDAO<Template> extends HibernateDaoSupport implements I
 
 	// 删除数据项
 	@SuppressWarnings("unchecked")
-	public boolean delete(Class<Template> clazz, Integer id) {
-		Template object = (Template) this.getHibernateTemplate().load(clazz.getClass(), new Integer(id));
-		if (object != null) {
-			this.getHibernateTemplate().delete(object);
-			return true;
-		}
-		return false;
-	}
-
-	@SuppressWarnings("unchecked")
-	public boolean deleteData(Template object) {
+	public boolean delete(Template object) {
 		List<Template> list = (List<Template>) this.getHibernateTemplate().findByExample(object);
 		if (list == null) 
 			return false;

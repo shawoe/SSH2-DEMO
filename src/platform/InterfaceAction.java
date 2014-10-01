@@ -1,6 +1,6 @@
 package platform;
 
-public interface InterfaceActionMessage {
+public interface InterfaceAction {
 
 	// 读信息
 	public abstract String read() throws Exception;
@@ -17,13 +17,5 @@ public interface InterfaceActionMessage {
 	// 读最后一页信息
 	public abstract String readEnd() throws Exception;
 
-	// 发送信息
-	public abstract String send() throws Exception;
-
-	// 删除信息
-	public abstract String delete() throws Exception;
-
-	// 修改信息
-	public abstract String edit() throws Exception;
 
 }

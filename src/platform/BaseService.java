@@ -1,20 +1,19 @@
 package platform;
 
+import java.io.File;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import org.apache.commons.io.FileUtils;
+import org.apache.struts2.ServletActionContext;
+import member.IUserDAO;
 
-public class BaseService<Template> {
+public abstract class BaseService<Template> implements InterfaceService<Template> {
 	
 	// 设置属性
+	protected IUserDAO userDAO;
 	protected String currentUser;
-	
-	// 返回值常量
-	public static final String NONE = "none";
-	public static final String SUCCESS = "success";
-	public static final String ERROR = "error";
-	public static final String INPUT = "input";
-	public static final String LOGIN = "login"; 
 	
 	// 默认构造方法
 	protected BaseService(){
@@ -22,7 +21,7 @@ public class BaseService<Template> {
 	}
 	
 	// 设置当前用户
-	public boolean setCurrentUser(String userName) {
+	public boolean recordCurrentUser(String userName) {
 		return SessionContext.setSessionValue("currentUser", userName);
 	}
 	
@@ -32,10 +31,28 @@ public class BaseService<Template> {
 	}
 	
 	// 获得系统时间
-	public String getCurrentDate() {
+	public String referCurrentDate() {
 		Date date = new Date();
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 		return simpleDateFormat.format(date);		
+	}
+	
+	// 上传图片
+	public boolean uploadImage(File imageFile, String imageFileName, String imageContentType, String imageFolder, String renameImage) {
+		// 获取路径
+		String realPath = ServletActionContext.getServletContext().getRealPath("/" + imageFolder);
+		// 获取图片类型
+		String imageType = imageFileName.substring(imageFileName.lastIndexOf(".") + 1, imageFileName.length());
+		// 保存图片
+		File saveFile = new File(new File(realPath), renameImage + "." + imageType);
+		if (!saveFile.getParentFile().exists())
+			saveFile.getParentFile().mkdirs();
+		try {
+			FileUtils.copyFile(imageFile, saveFile);
+			return true;
+		} catch (IOException e) {
+			return false;
+		}
 	}
 	
 	// 分页处理
@@ -60,6 +77,23 @@ public class BaseService<Template> {
 		if (listSize % pageSize > 0) 
 			count++;
 		return count;
+	}
+
+	// 属性默认Getter/Setter
+	public String getCurrentUser() {
+		return currentUser;
+	}
+
+	public void setCurrentUser(String currentUser) {
+		this.currentUser = currentUser;
+	}
+
+	public IUserDAO getUserDAO() {
+		return userDAO;
+	}
+
+	public void setUserDAO(IUserDAO userDAO) {
+		this.userDAO = userDAO;
 	}
 
 }

@@ -16,7 +16,7 @@
     	<a href="user/register.jsp">立即注册</a>
 	</s:if>
 	<s:else>
-		<img src="avatars/admin.jpg">
+		<img src="avatar/admin.jpg">
 		<p><s:property value="#session.currentUser" />，欢迎光临</p>
     	<a href="user/welcome.jsp">点击出处进入主页</a>
   		<a href="logoutUser">退出登录</a>

@@ -1,8 +1,8 @@
 package monitor;
 
-import platform.BaseAdvice;
+import platform.BaseService;
 
-public class PowerAdvice extends BaseAdvice<Logger>{
+public class PowerAdvice extends BaseService<Logger>{
 	
 	// µÇÂ¼¼ì²é
 	public boolean checkLogin() {
