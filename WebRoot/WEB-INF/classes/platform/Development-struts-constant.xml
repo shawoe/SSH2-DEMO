@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+    "http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+
+    <!-- 设置浏览器是否缓存静态内容,默认值为true,开发阶段最好关闭 -->
+    <constant name="struts.serve.static.browserCache" value="false" />
+	<!-- 让struts2始终先考虑spring的自动装箱 -->
+	<constant name="struts.objectFactory.spring.autoWire.alwaysRespect" value="true" />
+	<!-- 开发模式下可以打印出更详细的错误信息 -->
+	<constant name="struts.devMode" value="true" />
+	<!-- 在Struts2的配置文件修改后自动加载 -->
+	<constant name="struts.configuration.xml.reload" value="true" />
+	<!-- 声明字符集解决乱码 -->
+	<constant name="struts.i18n.encoding" value="gbk"></constant>
+    <!-- 指定允许上传的文件最大字节数为10M,默认值是2097152(2M) -->
+    <constant name="struts.multipart.maxSize" value="107010960"/>
+    <!-- 设置上传文件的临时文件夹 -->
+    <constant name="struts.multipart.saveDir " value="/upload" />
+		
+</struts>
+

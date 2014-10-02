@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+    "http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<!-- struts为配置文件根元素-->
+<struts>
+
+	<!-- Action必须放在指定的包名空间中-->
+	<package name="struts2" extends="struts-default" namespace="/sms">
+		
+	<!-- Message.SMSAction -->
+		<action name="readSMS" class="message.SMSAction" method="read">
+			<result name="error" type="redirect">/error/error.jsp</result>
+			<result name="login" type="redirect">/user/login.jsp</result>
+			<result name="none" type="redirect">/user/login.jsp</result>
+			<result name="success" type="dispatcher">/sms/read.jsp</result>
+		</action>
+		<action name="readFirstSMS" class="message.SMSAction" method="readFirst">
+			<result name="error" type="redirect">/error/error.jsp</result>
+			<result name="login" type="redirect">/user/login.jsp</result>
+			<result name="none" type="redirect">/user/login.jsp</result>
+			<result name="success" type="dispatcher">/sms/read.jsp</result>
+		</action>
+		<action name="readNextSMS" class="message.SMSAction" method="readNext">
+			<result name="error" type="redirect">/error/error.jsp</result>
+			<result name="login" type="redirect">/user/login.jsp</result>
+			<result name="none" type="redirect">/user/login.jsp</result>
+			<result name="success" type="dispatcher">/sms/read.jsp</result>
+		</action>
+		<action name="readLastSMS" class="message.SMSAction" method="readLast">
+			<result name="error" type="redirect">/error/error.jsp</result>
+			<result name="login" type="redirect">/user/login.jsp</result>
+			<result name="none" type="redirect">/user/login.jsp</result>
+			<result name="success" type="dispatcher">/sms/read.jsp</result>
+		</action>
+		<action name="readEndSMS" class="message.SMSAction" method="readEnd">
+			<result name="error" type="redirect">/error/error.jsp</result>
+			<result name="login" type="redirect">/user/login.jsp</result>
+			<result name="none" type="redirect">/user/login.jsp</result>
+			<result name="success" type="dispatcher">/sms/read.jsp</result>
+		</action>
+		<action name="sendSMS" class="message.SMSAction" method="send">
+			<!-- Stop double-submission of forms -->
+			<interceptor-ref name="defaultStack"/>
+        	<interceptor-ref name="token" />
+        	<result name="invalid.token" type="redirect">/error/repeat.jsp</result>
+			<result name="error" type="redirect">/error/error.jsp</result>
+			<result name="login" type="redirect">/user/login.jsp</result>
+			<result name="none" type="redirect">/user/login.jsp</result>
+			<result name="input" type="dispatcher">/sms/write.jsp</result>
+			<result name="success" type="redirectAction">sms/readFirstSMS</result>
+		</action>
+		
+	</package>
+</struts>
+
