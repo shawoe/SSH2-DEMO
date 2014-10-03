@@ -2,20 +2,17 @@ package platform;
 
 public interface InterfaceAction {
 
-	// 读信息
-	public abstract String read() throws Exception;
+	// 第一页
+	public abstract String first() throws Exception;
 
-	// 读第一页信息
-	public abstract String readFirst() throws Exception;
+	// 下一页
+	public abstract String next() throws Exception;
 
-	// 读下一页信息
-	public abstract String readNext() throws Exception;
+	// 上一页
+	public abstract String last() throws Exception;
 
-	// 读上一页信息
-	public abstract String readLast() throws Exception;
-
-	// 读最后一页信息
-	public abstract String readEnd() throws Exception;
+	// 最后一页
+	public abstract String end() throws Exception;
 
 
 }

@@ -6,7 +6,7 @@ import java.util.List;
 import platform.BaseAction;
 
 @SuppressWarnings("serial")
-public class UserAction extends BaseAction{
+public class UserAction extends BaseAction implements IUserAction {
 	
 	// …Ë÷√ Ù–‘
 	protected String userName;  
@@ -265,6 +265,26 @@ public class UserAction extends BaseAction{
 
 	public void setNewPassword(String newPassword) {
 		this.newPassword = newPassword;
+	}
+
+	public String end() throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public String first() throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public String last() throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public String next() throws Exception {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 

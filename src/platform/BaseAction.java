@@ -3,7 +3,15 @@ package platform;
 import com.opensymphony.xwork2.ActionSupport;
 
 @SuppressWarnings("serial")
-public class BaseAction extends ActionSupport {
+public abstract class BaseAction extends ActionSupport implements InterfaceAction {
+	
+	// 设置属性
+	protected PageContext page;
+	
+	// 默认构造方法
+	protected BaseAction(){
+		
+	}
 	
 	// 参数检验
 	public boolean check(String[] argsName, String[] argsField, String... args) { 		

@@ -27,7 +27,7 @@ public class LoggerAction extends BaseAction implements ILoggerAction {
 	
 	
 	// 读第一页短消息
-	public String readFirst() throws Exception {
+	public String first() throws Exception {
 		if (pageSize==null || pageSize <= 0)
 			pageSize = 5;
 		pageNow = 1;
@@ -54,7 +54,7 @@ public class LoggerAction extends BaseAction implements ILoggerAction {
 	}
 	
 	// 读下一页短消息
-	public String readNext() throws Exception {
+	public String next() throws Exception {
 		if (pageSize==null || pageSize <= 0)
 			pageSize = 5;
 		if (pageNow==null || pageNow <= 0)
@@ -71,7 +71,7 @@ public class LoggerAction extends BaseAction implements ILoggerAction {
 	}
 	
 	// 读上一页短消息
-	public String readLast() throws Exception {
+	public String last() throws Exception {
 		if (pageSize==null || pageSize <= 0)
 			pageSize = 5;
 		if (pageNow==null || pageNow <= 0)
@@ -88,7 +88,7 @@ public class LoggerAction extends BaseAction implements ILoggerAction {
 	}
 	
 	// 读最后一页短消息
-	public String readEnd() throws Exception {
+	public String end() throws Exception {
 		if (pageSize==null || pageSize <= 0)
 			pageSize = 5;
 		if (pageNow==null || pageNow <= 0)

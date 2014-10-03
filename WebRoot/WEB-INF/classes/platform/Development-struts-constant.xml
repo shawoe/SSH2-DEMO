@@ -20,6 +20,14 @@
     <constant name="struts.multipart.maxSize" value="107010960"/>
     <!-- 设置上传文件的临时文件夹 -->
     <constant name="struts.multipart.saveDir " value="/upload" />
-		
+	
+	<!-- 默认命名空间下定义通用Action -->
+	<package name="struts2" extends="struts-default">
+		<!-- 重定向Action -->
+		<action name="*do*">
+			<result>/{1}/{2}.jsp</result>
+		</action>
+	</package>
+
 </struts>
 

@@ -63,4 +63,24 @@ public class FansAction extends BaseAction {
 	public void setFansName(String fansName) {
 		this.fansName = fansName;
 	}
+
+	public String end() throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public String first() throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public String last() throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public String next() throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

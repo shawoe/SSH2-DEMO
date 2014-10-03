@@ -4,38 +4,37 @@
     "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
     "http://struts.apache.org/dtds/struts-2.3.dtd">
 
-<!-- struts为配置文件根元素-->
 <struts>
 
-	<!-- Action必须放在指定的包名空间中-->
-	<package name="struts2" extends="struts-default" namespace="/logger">
+	<!-- Logger命名空间，Action必须在Logger目录下 -->
+	<package name="monitor" extends="struts-default">
 
-	<!-- Monitor.LoggerAction -->
+	<!-- Logger Read Action -->
 		<action name="readLogger" class="monitor.LoggerAction" method="read">
 			<result name="error" type="redirect">/logger/error.jsp</result>
 			<result name="login" type="redirect">/user/login.jsp</result>
 			<result name="none" type="redirect">/user/login.jsp</result>
 			<result name="success" type="dispatcher">/logger/read.jsp</result>
 		</action>
-		<action name="readFirstLogger" class="monitor.LoggerAction" method="readFirst">
+		<action name="readFirstLogger" class="monitor.LoggerAction" method="first">
 			<result name="error" type="redirect">/logger/error.jsp</result>
 			<result name="login" type="redirect">/user/login.jsp</result>
 			<result name="none" type="redirect">/user/login.jsp</result>
 			<result name="success" type="dispatcher">/logger/read.jsp</result>
 		</action>
-		<action name="readNextLogger" class="monitor.LoggerAction" method="readNext">
+		<action name="readNextLogger" class="monitor.LoggerAction" method="next">
 			<result name="error" type="redirect">/logger/error.jsp</result>
 			<result name="login" type="redirect">/user/login.jsp</result>
 			<result name="none" type="redirect">/user/login.jsp</result>
 			<result name="success" type="dispatcher">/logger/read.jsp</result>
 		</action>
-		<action name="readLastLogger" class="monitor.LoggerAction" method="readLast">
+		<action name="readLastLogger" class="monitor.LoggerAction" method="last">
 			<result name="error" type="redirect">/logger/error.jsp</result>
 			<result name="login" type="redirect">/user/login.jsp</result>
 			<result name="none" type="redirect">/user/login.jsp</result>
 			<result name="success" type="dispatcher">/logger/read.jsp</result>
 		</action>
-		<action name="readEndLogger" class="monitor.LoggerAction" method="readEnd">
+		<action name="readEndLogger" class="monitor.LoggerAction" method="end">
 			<result name="error" type="redirect">/logger/error.jsp</result>
 			<result name="login" type="redirect">/user/login.jsp</result>
 			<result name="none" type="redirect">/user/login.jsp</result>

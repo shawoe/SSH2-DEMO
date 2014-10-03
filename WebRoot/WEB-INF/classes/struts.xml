@@ -4,12 +4,15 @@
     "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
     "http://struts.apache.org/dtds/struts-2.3.dtd">
 
-<struts>
-	
+<struts>	    
+    
+	<!-- 导入Struts2开发模式 -->
 	<include file="platform/Development-struts-constant.xml" />
+	
+	<!-- 导入模块化Sruts2配置文件 -->
 	<include file="member/User-struts.xml" />
 	<include file="message/SMS-struts.xml" />
 	<include file="monitor/Logger-struts.xml" />
-		
+	
 </struts>
 
