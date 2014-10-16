@@ -7,8 +7,8 @@
 <!-- struts为配置文件根元素-->
 <struts>
     
-	<!-- Action必须放在指定的包名空间中-->
-	<package name="member" extends="struts-default">
+	<!-- User命名空间，Action必须在Logger目录下User -->
+	<package name="member" extends="struts-default" namespace="/user">
 	
 		<action name="loginUser" class="member.UserAction" method="login">
 			<!-- Stop double-submission of forms -->

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project-module
   type="WEB"
-  name="JavaWeb"
+  name="moduspring"
   id="myeclipse.1408846316997"
-  context-root="/JavaWeb"
+  context-root="/moduspring"
   j2ee-spec="5.0"
-  archive="JavaWeb.war">
+  archive="moduspring.war">
   <attributes>
     <attribute name="webrootdir" value="/WebRoot" />
   </attributes>

@@ -7,7 +7,7 @@
 <struts>
 
 	<!-- Logger命名空间，Action必须在Logger目录下 -->
-	<package name="monitor" extends="struts-default">
+	<package name="monitor" extends="struts-default" namespace="/logger">
 
 	<!-- Logger Read Action -->
 		<action name="readLogger" class="monitor.LoggerAction" method="read">
